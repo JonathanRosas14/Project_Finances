@@ -1,0 +1,42 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend_service
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - ./backend/.env:/app/.env
+      - /app/node_modules
+    command: npm run dev
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    container_name: frontend_service
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+    depends_on:
+      - backend
+  db:
+    image: mysql:8.0
+    container_name: db_service
+    environment:
+      MYSQL_ROOT_PASSWORD: cam2190lol
+      MYSQL_DATABASE: FinanceDB
+
+    ports:
+      - "3309:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
