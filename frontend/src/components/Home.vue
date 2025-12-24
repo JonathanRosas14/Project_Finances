@@ -88,7 +88,6 @@
           <img src="../assets/Imagen2.png" alt="Image 2" />
           <div class="hero-overlay">
             <p>Own home</p>
-            <p>Goal: $450,000</p>
           </div>
         </div>
         <div class="img2">
@@ -125,11 +124,44 @@
 
     <footer class="footer">
       <!-- Future footer content can be added here -->
+      <div class="footer-content">
+        <div class="footer1">
+          <div class="footer-column1">
+            <div class="logo">
+              <div class="logo-icon">
+                <img src="../assets/Logo.png" alt="Logo" />
+              </div>
+              <span>Finances Pro</span>
+            </div>
+            <p>
+              The smartest way to manage your money, investments, and financial
+              future.
+            </p>
+          </div>
+          <div class="footer-column2">
+            <h3>PRODUCT</h3>
+            <ul>
+              <li><router-link to="/features">Features</router-link></li>
+              <li><router-link to="/prices">Prices</router-link></li>
+              <li><router-link to="/security">Security</router-link></li>
+            </ul>
+          </div>
+          <div class="footer-column3">
+            <h3>COMPANY</h3>
+            <ul>
+              <li><router-link to="/about">About Us</router-link></li>
+              <li><router-link to="/contact">Contact</router-link></li>
+              <li><router-link to="/blog">Blog</router-link></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>© 2025 Finances Pro. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
   </div>
 </template>
-
-<script setup></script>
 
 <style scoped>
 /* ============================================ */
@@ -540,5 +572,79 @@ header {
 .card-section2 p {
   font-size: 18px;
   line-height: 1.5;
+}
+
+/* ============================================ */
+/* PIE DE PÁGINA (FOOTER) */
+/* ============================================ */
+
+.footer {
+  width: 100%;
+  padding: 40px 60px;
+}
+
+.footer-content {
+  margin: 0 auto;
+  max-width: 1500px;
+}
+
+.footer1 {
+  display: flex;
+  gap: 80px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #2e5c31;
+}
+
+.footer-column1 {
+  max-width: 300px;
+  color: #b3b3b3;
+}
+
+.footer-column2 {
+  margin-left: auto;
+  color: white;
+}
+
+.footer-column3 {
+  color: white;
+}
+
+.footer-column1 p {
+  margin-top: 10px;
+  line-height: 1.5;
+  color: #b3b3b3;
+}
+
+.footer-column2 h3,
+.footer-column3 h3 {
+  margin-bottom: 10px;
+}
+
+.footer-column2 ul,
+.footer-column3 ul {
+  list-style: none;
+}
+.footer-column2 ul li,
+.footer-column3 ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column2 ul li a,
+.footer-column3 ul li a {
+  color: #b3b3b3;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column2 ul li a:hover,
+.footer-column3 ul li a:hover {
+  color: #3acf41;
+}
+
+.copyright {
+  text-align: center;
+  color: #b3b3b3;
+  font-size: 14px;
 }
 </style>
