@@ -647,4 +647,315 @@ header {
   color: #b3b3b3;
   font-size: 14px;
 }
+
+/* ============================================ */
+/* MEDIA QUERIES - RESPONSIVIDAD */
+/* ============================================ */
+
+/* Tablets grandes y pantallas medianas */
+@media (max-width: 1200px) {
+  .card-section {
+    gap: 100px;
+  }
+
+  .info-secction h1 {
+    font-size: 40px;
+  }
+
+  .image-section img {
+    max-width: 350px;
+  }
+
+  .second-section,
+  .third-section {
+    padding: 50px 60px;
+  }
+
+  .footer1 {
+    gap: 60px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  header {
+    padding: 0 20px;
+  }
+
+  .nav-link {
+    gap: 15px;
+  }
+
+  .nav-item {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 8px 25px;
+    font-size: 14px;
+  }
+
+  .hero-section {
+    padding: 30px 40px;
+  }
+
+  .card-section {
+    gap: 50px;
+  }
+
+  .info-secction h1 {
+    font-size: 36px;
+  }
+
+  .info-secction p {
+    font-size: 16px;
+  }
+
+  .image-section img {
+    max-width: 300px;
+  }
+
+  .second-section,
+  .third-section {
+    padding: 40px 40px;
+  }
+
+  .card-infos {
+    gap: 20px;
+  }
+
+  .imagenes {
+    gap: 15px;
+  }
+
+  .footer {
+    padding: 30px 40px;
+  }
+
+  .footer1 {
+    gap: 40px;
+  }
+}
+
+/* Tablets pequeñas */
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 15px 20px;
+    gap: 15px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .logo-icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-link {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-item {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .header-botoms {
+    gap: 8px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 6px 20px;
+    font-size: 13px;
+  }
+
+  .hero-section {
+    padding: 30px 20px;
+  }
+
+  .card-section {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .info-secction {
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .info-secction h1 {
+    font-size: 32px;
+  }
+
+  .info-secction p {
+    font-size: 15px;
+  }
+
+  .btn-creat-account {
+    max-width: 100%;
+  }
+
+  .image-section img {
+    max-width: 100%;
+  }
+
+  .second-section,
+  .third-section {
+    padding: 30px 20px;
+  }
+
+  .info2-section,
+  .info3-section {
+    text-align: center;
+    align-items: center;
+  }
+
+  .info2-section h1,
+  .info3-section h1 {
+    font-size: 28px;
+  }
+
+  .card-infos {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cards {
+    width: 100%;
+  }
+
+  .imagenes {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .img1,
+  .img2,
+  .img3,
+  .img4 {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .card-section2 {
+    padding: 30px 20px;
+  }
+
+  .card-section2 h1 {
+    font-size: 28px;
+  }
+
+  .card-section2 p {
+    font-size: 16px;
+  }
+
+  .footer {
+    padding: 30px 20px;
+  }
+
+  .footer1 {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .footer-column1 {
+    max-width: 100%;
+  }
+
+  .footer-column2,
+  .footer-column3 {
+    margin-left: 0;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 18px;
+  }
+
+  .logo span {
+    margin-left: 8px;
+  }
+
+  .logo-icon img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nav-item {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 5px 15px;
+    font-size: 12px;
+  }
+
+  .info-secction h1 {
+    font-size: 26px;
+  }
+
+  .info-secction p {
+    font-size: 14px;
+  }
+
+  .btn-creat-account {
+    font-size: 16px;
+    padding: 10px 25px;
+  }
+
+  .info2-section h1,
+  .info3-section h1 {
+    font-size: 24px;
+  }
+
+  .info2-section p,
+  .info3-section p {
+    font-size: 14px;
+  }
+
+  .cards h2 {
+    font-size: 20px;
+  }
+
+  .cards p {
+    font-size: 14px;
+  }
+
+  .card-section2 h1 {
+    font-size: 24px;
+  }
+
+  .card-section2 p {
+    font-size: 14px;
+  }
+
+  .footer-column2 h3,
+  .footer-column3 h3 {
+    font-size: 16px;
+  }
+
+  .footer-column2 ul li,
+  .footer-column3 ul li {
+    font-size: 14px;
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+}
 </style>
