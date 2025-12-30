@@ -110,7 +110,60 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const username = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const acceptedTerms = ref(false);
+const errorMessage = ref("");
+const successMessage = ref("");
+const loading = ref(false);
+
+const handleRegister = async () => {
+  errorMessage.value = "";
+  successMessage.value = "";
+
+  if (password.value !== confirmPassword.value) {
+    errorMessage.value = "Passwords do not match.";
+    return;
+  }
+
+  if (!acceptedTerms.value) {
+    errorMessage.value = "You must accept the terms and conditions.";
+    return;
+  }
+
+  loading.value = true;
+
+  try {
+    // Usa la URL completa desde localhost
+    const response = await axios.post("http://localhost:3000/api/register", {
+      username: username.value,
+      email: email.value,
+      password: password.value,
+    });
+
+    successMessage.value = "Registration successful! You can now log in.";
+    username.value = "";
+    email.value = "";
+    password.value = "";
+    confirmPassword.value = "";
+    acceptedTerms.value = false;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      errorMessage.value = error.response.data.message;
+    } else {
+      errorMessage.value = "An error occurred during registration.";
+    }
+  } finally {
+    loading.value = false;
+  }
+};
+</script>
 
 <style scoped>
 * {

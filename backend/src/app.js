@@ -23,9 +23,10 @@ app.post("/api/register", async (req, res) => {
         .json({ message: "Todos los campos son obligatorios" });
     }
     // Verificar si el usuario ya existe
-    const [existingUser] = await db
-      .promise()
-      .query("SELECT * FROM users WHERE email = ?", [email]);
+    const [existingUser] = await db.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
 
     if (existingUser.length > 0) {
       return res.status(409).json({ message: "El usuario ya existe" });
@@ -34,13 +35,10 @@ app.post("/api/register", async (req, res) => {
     const hashedPassword = await byscrypt.hash(password, 10);
 
     // Insertar el nuevo usuario en la base de datos
-    await db
-      .promise()
-      .query("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", [
-        username,
-        email,
-        hashedPassword,
-      ]);
+    await db.query(
+      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+      [username, email, hashedPassword]
+    );
     res.status(201).json({ message: "Usuario registrado exitosamente" });
   } catch (error) {
     console.error("Error al registrar el usuario:", error);
