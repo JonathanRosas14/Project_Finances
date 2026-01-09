@@ -66,7 +66,20 @@
         </div>
         <div class="card-infos">
           <div class="cards">
-            <img src="../assets/Icon1.png" alt="Icon 1" />
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0ZM4.14355 13.5165C4.85219 17.2096 8.10023 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C8.0886 4 4.83283 6.80704 4.13728 10.5165L6.72824 10.5071C7.37819 8.20738 9.49236 6.52222 12.0001 6.52222C15.0254 6.52222 17.4779 8.9747 17.4779 12C17.4779 15.0253 15.0254 17.4778 12.0001 17.4778C9.49752 17.4778 7.3869 15.7995 6.73228 13.5071L4.14355 13.5165ZM9.52234 12C9.52234 13.3684 10.6317 14.4778 12.0001 14.4778C13.3685 14.4778 14.4779 13.3684 14.4779 12C14.4779 10.6316 13.3685 9.52222 12.0001 9.52222C10.6317 9.52222 9.52234 10.6316 9.52234 12Z"
+                fill="currentColor"
+              />
+            </svg>
             <h2>Expense Tracking</h2>
             <p>
               Monitor your spending habits with ease and gain insights into
@@ -74,7 +87,20 @@
             </p>
           </div>
           <div class="cards">
-            <img src="../assets/Icon2.png" alt="Icon 2" />
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M18 10.5C19.6569 10.5 21 11.8431 21 13.5V19.5C21 21.1569 19.6569 22.5 18 22.5H6C4.34315 22.5 3 21.1569 3 19.5V13.5C3 11.8431 4.34315 10.5 6 10.5V7.5C6 4.18629 8.68629 1.5 12 1.5C15.3137 1.5 18 4.18629 18 7.5V10.5ZM12 3.5C14.2091 3.5 16 5.29086 16 7.5V10.5H8V7.5C8 5.29086 9.79086 3.5 12 3.5ZM18 12.5H6C5.44772 12.5 5 12.9477 5 13.5V19.5C5 20.0523 5.44772 20.5 6 20.5H18C18.5523 20.5 19 20.0523 19 19.5V13.5C19 12.9477 18.5523 12.5 18 12.5Z"
+                fill="currentColor"
+              />
+            </svg>
             <h2>Investment Management</h2>
             <p>
               Track your investment portfolio and make informed decisions to
@@ -82,7 +108,24 @@
             </p>
           </div>
           <div class="cards">
-            <img src="../assets/Icon3.png" alt="Icon 3" />
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.3056 6.99194C14.3578 6.36502 13.2215 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18C13.2267 18 14.3675 17.6318 15.3178 17H12V16H16.4722C16.9906 15.4208 17.3981 14.7404 17.6614 13.9919H12V12.9919H17.9184C17.9721 12.6693 18 12.3379 18 12C18 11.6683 17.9731 11.3428 17.9213 11.0258H12V10.0258H17.6676C17.4033 9.26689 16.9909 8.57742 16.465 7.99194H12V6.99194H15.3056Z"
+                fill="currentColor"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z"
+                fill="currentColor"
+              />
+            </svg>
             <h2>Savings Goals</h2>
             <p>
               Set and achieve your savings goals with personalized plans and
@@ -178,6 +221,10 @@
     </footer>
   </div>
 </template>
+
+<script setup>
+// No script logic needed for this component
+</script>
 
 <style scoped>
 /* ============================================ */
@@ -470,6 +517,13 @@ header {
   padding: 20px;
   text-align: left;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cards svg {
+  color: #3acf41;
+  margin-right: 12px;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 /* Efecto hover de las tarjetas con sombra y movimiento */

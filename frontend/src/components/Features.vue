@@ -318,7 +318,9 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+// No script logic needed for this component
+</script>
 
 <style scoped>
 /* ============================================ */

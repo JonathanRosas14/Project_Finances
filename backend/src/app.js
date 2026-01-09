@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { db } from "./config/db.js";
 import byscrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import passport from "passport";
+import "./config/passport.js";
 
 dotenv.config(); // esto carga las variables de entorno desde el archivo .env
 
@@ -10,6 +13,7 @@ const app = express(); // crea una instancia de la aplicación Express
 
 app.use(cors()); // habilita CORS para permitir solicitudes desde otros dominios
 app.use(express.json()); // middleware para parsear JSON en las solicitudes entrantes
+app.use(passport.initialize()); // inicializa passport
 
 //ruta para registar usuarios
 app.post("/api/register", async (req, res) => {
@@ -45,6 +49,26 @@ app.post("/api/register", async (req, res) => {
     res.status(500).json({ message: "Error al registrar el usuario" });
   }
 });
+
+// Inicia Google
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res) => {
+    const token = jwt.sign(
+      { id: req.user.id, email: req.user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.redirect(`http://localhost:5173/auth-success?token=${token}`);
+  }
+);
 
 // ruta donde correra el servidor
 app.listen(process.env.PORT, "0.0.0.0", () => {

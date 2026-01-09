@@ -99,6 +99,11 @@
             <button type="submit" class="register-btn" :disabled="loading">
               {{ loading ? "Registando..." : "Register" }}
             </button>
+            <div class="oauth-divider">or</div>
+
+            <a href="http://localhost:3000/auth/google" class="google-btn">
+              Continue with Google
+            </a>
           </form>
 
           <div class="datos-info">
@@ -113,6 +118,20 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
+
+onMounted(() => {
+  const token = route.query.token;
+
+  if (token) {
+    localStorage.setItem("token", token);
+    router.push("/dashboard");
+  }
+});
 
 const username = ref("");
 const email = ref("");
@@ -440,6 +459,21 @@ header {
   font-size: 13px;
   color: #6b8775;
   text-align: center;
+}
+
+.google-btn {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #000;
+  font-weight: bold;
+  margin-top: 10px;
+  text-decoration: none;
+}
+.google-btn:hover {
+  background: #f0f0f0;
 }
 
 /* Media Queries para Responsividad */
