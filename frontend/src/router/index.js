@@ -4,7 +4,7 @@ import Register from "../components/Register.vue";
 import Home from "../components/Home.vue";
 import Features from "../components/Features.vue";
 import About from "../components/About.vue";
-import Prices from "../components/Prices.vue";
+import Contact from "../components/Contact.vue";
 
 const routes = [
   {
@@ -33,9 +33,9 @@ const routes = [
     component: About,
   },
   {
-    path: "/prices",
-    name: "Prices",
-    component: Prices,
+    path: "/contact",
+    name: "Contact",
+    component: Contact,
   },
 ];
 

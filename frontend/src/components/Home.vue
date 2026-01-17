@@ -11,7 +11,7 @@
       <div class="nav-link">
         <router-link to="/features" class="nav-item">Features</router-link>
         <router-link to="/about" class="nav-item">About Us</router-link>
-        <router-link to="/prices" class="nav-item">Prices</router-link>
+        <router-link to="/contact" class="nav-item">Contact</router-link>
       </div>
 
       <div class="header-botoms">
@@ -734,8 +734,28 @@ header {
 /* MEDIA QUERIES - RESPONSIVIDAD */
 /* ============================================ */
 
-/* Tablets grandes y pantallas medianas */
+/* Pantallas XL - Ajustes finos */
+@media (max-width: 1400px) {
+  .card-section {
+    gap: 150px;
+  }
+
+  .second-section,
+  .third-section {
+    padding: 50px 60px;
+  }
+
+  .imagenes {
+    gap: 25px;
+  }
+}
+
+/* Pantallas grandes */
 @media (max-width: 1200px) {
+  header {
+    padding: 0 20px;
+  }
+
   .card-section {
     gap: 100px;
   }
@@ -756,27 +776,36 @@ header {
   .footer1 {
     gap: 60px;
   }
+
+  .info2-section h1,
+  .info3-section h1 {
+    font-size: 32px;
+  }
+
+  .cards h2 {
+    font-size: 22px;
+  }
 }
 
 /* Tablets */
 @media (max-width: 1024px) {
   header {
-    padding: 0 20px;
+    padding: 0 15px;
   }
 
   .nav-link {
-    gap: 15px;
+    gap: 12px;
   }
 
   .nav-item {
-    font-size: 16px;
-    padding: 8px 12px;
+    font-size: 15px;
+    padding: 8px 10px;
   }
 
   .btn-login,
   .btn-signup {
     padding: 8px 25px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .hero-section {
@@ -812,6 +841,19 @@ header {
     gap: 15px;
   }
 
+  .info2-section h1,
+  .info3-section h1 {
+    font-size: 28px;
+  }
+
+  .cards h2 {
+    font-size: 20px;
+  }
+
+  .card-section2 h1 {
+    font-size: 32px;
+  }
+
   .footer {
     padding: 30px 40px;
   }
@@ -821,13 +863,10 @@ header {
   }
 }
 
-/* Tablets pequeñas */
-@media (max-width: 768px) {
+/* Tablets medianas */
+@media (max-width: 892px) {
   header {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 15px 20px;
-    gap: 15px;
+    padding: 10px 15px;
   }
 
   .logo {
@@ -840,40 +879,24 @@ header {
   }
 
   .nav-link {
+    gap: 8px;
     order: 3;
     width: 100%;
     justify-content: center;
-    gap: 10px;
   }
 
   .nav-item {
-    font-size: 14px;
-    padding: 6px 10px;
-  }
-
-  .header-botoms {
-    gap: 8px;
-  }
-
-  .btn-login,
-  .btn-signup {
-    padding: 6px 20px;
     font-size: 13px;
+    padding: 5px 8px;
   }
 
   .hero-section {
-    padding: 30px 20px;
+    padding: 25px 30px;
   }
 
   .card-section {
     flex-direction: column;
-    gap: 30px;
-  }
-
-  .info-secction {
-    max-width: 100%;
-    text-align: center;
-    align-items: center;
+    gap: 25px;
   }
 
   .info-secction h1 {
@@ -884,12 +907,116 @@ header {
     font-size: 15px;
   }
 
+  .image-section img {
+    max-width: 280px;
+  }
+
+  .second-section,
+  .third-section {
+    padding: 35px 30px;
+  }
+
+  .info2-section h1,
+  .info3-section h1 {
+    font-size: 26px;
+  }
+
+  .cards {
+    width: 100%;
+  }
+
+  .card-section2 {
+    padding: 25px 30px;
+  }
+
+  .card-section2 h1 {
+    font-size: 26px;
+  }
+
+  .footer {
+    padding: 25px 30px;
+  }
+}
+
+/* Tablets pequeñas */
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px 15px;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .logo-icon img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .logo span {
+    margin-left: 8px;
+  }
+
+  .nav-link {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  .header-botoms {
+    gap: 6px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 8px 20px;
+    font-size: 12px;
+  }
+
+  .hero-section {
+    padding: 25px 20px;
+  }
+
+  .card-section {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .info-secction {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .info-secction h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .info-secction p {
+    font-size: 14px;
+  }
+
   .btn-creat-account {
     max-width: 100%;
+    font-size: 16px;
+    padding: 10px 25px;
   }
 
   .image-section img {
     max-width: 100%;
+    width: 100%;
   }
 
   .second-section,
@@ -900,26 +1027,40 @@ header {
   .info2-section,
   .info3-section {
     text-align: center;
-    align-items: center;
   }
 
   .info2-section h1,
   .info3-section h1 {
-    font-size: 28px;
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .info2-section p,
+  .info3-section p {
+    font-size: 14px;
   }
 
   .card-infos {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
 
   .cards {
     width: 100%;
+    max-width: 100%;
+  }
+
+  .cards h2 {
+    font-size: 18px;
+  }
+
+  .cards p {
+    font-size: 13px;
   }
 
   .imagenes {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
   }
 
   .img1,
@@ -931,24 +1072,25 @@ header {
   }
 
   .card-section2 {
-    padding: 30px 20px;
+    padding: 25px 20px;
   }
 
   .card-section2 h1 {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .card-section2 p {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .footer {
-    padding: 30px 20px;
+    padding: 25px 20px;
   }
 
   .footer1 {
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
+    margin-bottom: 15px;
   }
 
   .footer-column1 {
@@ -959,16 +1101,25 @@ header {
   .footer-column3 {
     margin-left: 0;
   }
+
+  .copyright {
+    font-size: 13px;
+  }
 }
 
-/* Móviles */
-@media (max-width: 480px) {
+/* Dispositivos móviles - Medianos */
+@media (max-width: 600px) {
+  header {
+    padding: 10px 12px;
+    height: auto;
+  }
+
   .logo {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .logo span {
-    margin-left: 8px;
+    margin-left: 6px;
   }
 
   .logo-icon img {
@@ -976,68 +1127,194 @@ header {
     height: 35px;
   }
 
-  .nav-item {
-    font-size: 12px;
-    padding: 5px 8px;
+  .nav-link {
+    display: none;
+  }
+
+  .header-botoms {
+    width: 100%;
+    gap: 6px;
+    margin-top: 8px;
   }
 
   .btn-login,
   .btn-signup {
-    padding: 5px 15px;
+    padding: 8px 15px;
     font-size: 12px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-section {
+    padding: 20px 15px;
+  }
+
+  .card-section {
+    flex-direction: column;
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .info-secction {
+    text-align: center;
   }
 
   .info-secction h1 {
-    font-size: 26px;
+    font-size: 24px;
+    margin-bottom: 12px;
   }
 
   .info-secction p {
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .btn-creat-account {
-    font-size: 16px;
-    padding: 10px 25px;
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .image-section img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .second-section,
+  .third-section {
+    padding: 25px 15px;
   }
 
   .info2-section h1,
   .info3-section h1 {
-    font-size: 24px;
+    font-size: 20px;
+    margin-bottom: 12px;
   }
 
   .info2-section p,
   .info3-section p {
-    font-size: 14px;
+    font-size: 12px;
+  }
+
+  .card-infos {
+    gap: 12px;
+  }
+
+  .cards {
+    padding: 15px;
   }
 
   .cards h2 {
-    font-size: 20px;
+    font-size: 16px;
+    margin-bottom: 8px;
   }
 
   .cards p {
-    font-size: 14px;
+    font-size: 12px;
+  }
+
+  .cards svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .imagenes {
+    gap: 10px;
+  }
+
+  .card-section2 {
+    padding: 20px 15px;
+    gap: 15px;
   }
 
   .card-section2 h1 {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .card-section2 p {
-    font-size: 14px;
+    font-size: 12px;
+  }
+
+  .footer {
+    padding: 20px 12px;
+  }
+
+  .footer1 {
+    gap: 20px;
+    margin-bottom: 12px;
+  }
+
+  .footer-column1 p {
+    font-size: 12px;
   }
 
   .footer-column2 h3,
   .footer-column3 h3 {
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .footer-column2 ul li,
   .footer-column3 ul li {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .copyright {
+    font-size: 11px;
+    margin-top: 10px;
+  }
+}
+
+/* Dispositivos móviles muy pequeños */
+@media (max-width: 400px) {
+  .logo {
+    font-size: 14px;
+  }
+
+  .logo-icon img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .header-botoms {
+    margin-top: 6px;
+  }
+
+  .info-secction h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .info-secction p {
     font-size: 12px;
+  }
+
+  .info2-section h1,
+  .info3-section h1 {
+    font-size: 18px;
+  }
+
+  .cards h2 {
+    font-size: 14px;
+  }
+
+  .cards p {
+    font-size: 11px;
+  }
+
+  .card-section2 h1 {
+    font-size: 18px;
+  }
+
+  .card-section2 p {
+    font-size: 11px;
+  }
+
+  .btn-creat-account {
+    font-size: 13px;
+    padding: 8px 15px;
+  }
+
+  .copyright {
+    font-size: 10px;
   }
 }
 </style>

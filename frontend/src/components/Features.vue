@@ -11,7 +11,7 @@
       <div class="nav-link">
         <router-link to="/features" class="nav-item">Features</router-link>
         <router-link to="/about" class="nav-item">About Us</router-link>
-        <router-link to="/prices" class="nav-item">Prices</router-link>
+        <router-link to="/contact" class="nav-item">Contact</router-link>
       </div>
 
       <div class="header-botoms">
@@ -817,62 +817,725 @@ header {
 /* MEDIA QUERIES - RESPONSIVIDAD */
 /* ============================================ */
 
-/* Tablets grandes y pantallas medianas */
-@media (max-width: 992px) {
+/* Pantallas XL - Ajustes finos */
+@media (max-width: 1400px) {
+  .card-section,
+  .card3-section {
+    gap: 50px;
+  }
+
+  .second-section {
+    padding: 50px 60px;
+  }
+
+  .fourth-section {
+    padding: 50px 60px;
+  }
+
+  .images-section {
+    gap: 15px;
+  }
+}
+
+/* Pantallas grandes */
+@media (max-width: 1200px) {
+  header {
+    padding: 0 20px;
+  }
+
+  .hero-section {
+    padding: 40px 40px;
+  }
+
+  .second-section {
+    padding: 40px 40px;
+  }
+
+  .third-section {
+    padding: 40px 40px;
+  }
+
+  .fourth-section {
+    padding: 40px 40px;
+  }
+
+  .info-secction h1 {
+    font-size: 40px;
+  }
+
+  .info2-secction h1,
+  .info3-secction h1 {
+    font-size: 40px;
+  }
+
   .card-infos {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+
+  .footer {
+    padding: 30px 40px;
+  }
+
+  .footer1 {
+    gap: 60px;
   }
 }
 
 /* Tablets */
-
-@media (max-width: 768px) {
-  .card-infos {
-    grid-template-columns: 1fr;
-  }
-
-  .card-section,
-  .card3-section {
-    flex-direction: column;
-  }
-
-  .image-section,
-  .images-section,
-  .info2-secction,
-  .info3-secction {
-    max-width: 100%;
-  }
-}
-
-/* Móviles */
-@media (max-width: 480px) {
-  .hero-section {
-    padding: 20px 30px;
-  }
-
-  .info-secction h1 {
-    font-size: 32px;
-  }
-
-  .info-secction p {
-    font-size: 16px;
-  }
-
+@media (max-width: 1024px) {
   header {
-    flex-direction: column;
-    height: auto;
-    padding: 15px 20px;
-    gap: 10px;
+    padding: 0 15px;
   }
 
   .nav-link {
-    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-item {
+    font-size: 15px;
+    padding: 8px 10px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+
+  .hero-section {
+    padding: 30px 30px;
+  }
+
+  .info-secction h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }
+
+  .info-secction p {
+    font-size: 18px;
+  }
+
+  .new-features p {
+    font-size: 16px;
+  }
+
+  .second-section {
+    padding: 35px 30px;
+  }
+
+  .card-infos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .cards h2 {
+    font-size: 20px;
+  }
+
+  .cards p {
+    font-size: 15px;
+  }
+
+  .third-section {
+    padding: 35px 30px;
+  }
+
+  .card-section {
+    gap: 40px;
+  }
+
+  .info2-secction h1 {
+    font-size: 36px;
+  }
+
+  .info2-secction p {
+    font-size: 16px;
+  }
+
+  .image-section img {
+    max-width: 350px;
+  }
+
+  .fourth-section {
+    padding: 35px 30px;
+  }
+
+  .card3-section {
+    gap: 40px;
+  }
+
+  .info3-secction h1 {
+    font-size: 36px;
+  }
+
+  .info3-secction p {
+    font-size: 16px;
+  }
+
+  .images-section {
+    gap: 15px;
+  }
+
+  .card-section2 {
+    padding: 30px 25px;
+  }
+
+  .card-section2 h1 {
+    font-size: 28px;
+  }
+
+  .card-section2 p {
+    font-size: 16px;
+  }
+
+  .btn-creat-account {
+    padding: 10px 25px;
+    font-size: 16px;
+  }
+
+  .footer {
+    padding: 30px 30px;
+  }
+
+  .footer1 {
+    gap: 40px;
+  }
+}
+
+/* Tablets medianas */
+@media (max-width: 892px) {
+  header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 12px;
     gap: 10px;
   }
 
+  .logo {
+    font-size: 18px;
+  }
+
+  .logo-icon img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .nav-link {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .nav-item {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
   .header-botoms {
+    gap: 8px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
+
+  .hero-section {
+    padding: 25px 20px;
+  }
+
+  .info-secction h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+  }
+
+  .info-secction p {
+    font-size: 15px;
+  }
+
+  .new-features p {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .second-section {
+    padding: 30px 20px;
+  }
+
+  .card-infos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .cards {
+    padding: 15px;
+  }
+
+  .cards h2 {
+    font-size: 18px;
+    margin: 12px 0;
+  }
+
+  .cards p {
+    font-size: 13px;
+  }
+
+  .third-section {
+    padding: 30px 20px;
+  }
+
+  .card-section {
     flex-direction: column;
+    gap: 25px;
+    width: 100%;
+  }
+
+  .info2-secction {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .info2-secction h1 {
+    font-size: 28px;
+  }
+
+  .info2-secction p {
+    font-size: 14px;
+    justify-content: center;
+  }
+
+  .image-section img {
+    max-width: 100%;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .fourth-section {
+    padding: 30px 20px;
+  }
+
+  .card3-section {
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+  }
+
+  .images-section {
+    gap: 12px;
+    order: 2;
+  }
+
+  .info3-secction {
+    max-width: 100%;
+    text-align: center;
+    order: 1;
+  }
+
+  .info3-secction h1 {
+    font-size: 28px;
+  }
+
+  .info3-secction p {
+    font-size: 14px;
+  }
+
+  .card-section2 {
+    padding: 25px 20px;
+    margin-top: 20px;
+  }
+
+  .card-section2 h1 {
+    font-size: 26px;
+  }
+
+  .card-section2 p {
+    font-size: 14px;
+  }
+
+  .btn-creat-account {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .footer {
+    padding: 25px 20px;
+  }
+
+  .footer1 {
+    gap: 30px;
+  }
+}
+
+/* Tablets pequeñas */
+@media (max-width: 768px) {
+  header {
+    padding: 10px 12px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .logo-icon img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nav-link {
+    width: 100%;
+  }
+
+  .header-botoms {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .hero-section {
+    padding: 20px 15px;
+  }
+
+  .info-secction h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+
+  .info-secction p {
+    font-size: 14px;
+  }
+
+  .second-section {
+    padding: 25px 15px;
+  }
+
+  .card-infos {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cards {
+    padding: 12px;
+  }
+
+  .cards h2 {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+
+  .cards p {
+    font-size: 12px;
+  }
+
+  .third-section {
+    padding: 25px 15px;
+  }
+
+  .card-section {
+    gap: 15px;
+  }
+
+  .info2-secction h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .info2-secction p {
+    font-size: 13px;
+  }
+
+  .image-section img {
+    max-width: 200px;
+  }
+
+  .fourth-section {
+    padding: 25px 15px;
+  }
+
+  .card3-section {
+    gap: 15px;
+  }
+
+  .images-section {
     gap: 10px;
+  }
+
+  .info3-secction h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .info3-secction p {
+    font-size: 13px;
+  }
+
+  .card-section2 {
+    padding: 20px 15px;
+    margin-top: 15px;
+  }
+
+  .card-section2 h1 {
+    font-size: 22px;
+  }
+
+  .card-section2 p {
+    font-size: 12px;
+  }
+
+  .btn-creat-account {
+    padding: 10px 20px;
+    font-size: 13px;
+    max-width: 180px;
+  }
+
+  .footer {
+    padding: 20px 15px;
+  }
+
+  .footer1 {
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 12px;
+  }
+
+  .footer-column1 {
+    max-width: 100%;
+  }
+
+  .footer-column2,
+  .footer-column3 {
+    margin-left: 0;
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+}
+
+/* Dispositivos móviles - Medianos */
+@media (max-width: 600px) {
+  header {
+    padding: 8px 10px;
+  }
+
+  .logo {
+    font-size: 14px;
+  }
+
+  .logo span {
+    margin-left: 5px;
+  }
+
+  .logo-icon img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-link {
+    display: none;
+  }
+
+  .header-botoms {
+    width: 100%;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .btn-login,
+  .btn-signup {
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+
+  .hero-section {
+    padding: 18px 12px;
+  }
+
+  .new-features p {
+    font-size: 12px;
+    padding: 3px 6px;
+    margin-bottom: 6px;
+  }
+
+  .info-secction h1 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .info-secction p {
+    font-size: 12px;
+  }
+
+  .second-section {
+    padding: 20px 12px;
+  }
+
+  .card-infos {
+    gap: 10px;
+  }
+
+  .cards {
+    padding: 10px;
+  }
+
+  .cards h2 {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+
+  .cards p {
+    font-size: 11px;
+  }
+
+  .cards svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .third-section {
+    padding: 20px 12px;
+  }
+
+  .card-section {
+    gap: 12px;
+  }
+
+  .info2-secction h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .info2-secction p {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .image-section img {
+    max-width: 150px;
+  }
+
+  .fourth-section {
+    padding: 20px 12px;
+  }
+
+  .card3-section {
+    gap: 12px;
+  }
+
+  .images-section {
+    gap: 8px;
+  }
+
+  .info3-secction h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .info3-secction p {
+    font-size: 11px;
+  }
+
+  .card-section2 {
+    padding: 15px 12px;
+    margin-top: 12px;
+    gap: 15px;
+  }
+
+  .card-section2 h1 {
+    font-size: 18px;
+  }
+
+  .card-section2 p {
+    font-size: 11px;
+  }
+
+  .btn-creat-account {
+    padding: 8px 15px;
+    font-size: 12px;
+    max-width: 160px;
+  }
+
+  .footer {
+    padding: 15px 10px;
+  }
+
+  .footer1 {
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+
+  .footer-column1 p {
+    font-size: 11px;
+  }
+
+  .footer-column2 h3,
+  .footer-column3 h3 {
+    font-size: 12px;
+  }
+
+  .footer-column2 ul li,
+  .footer-column3 ul li {
+    font-size: 11px;
+  }
+
+  .copyright {
+    font-size: 10px;
+  }
+}
+
+/* Dispositivos móviles muy pequeños */
+@media (max-width: 400px) {
+  .logo {
+    font-size: 12px;
+  }
+
+  .logo-icon img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .info-secction h1 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .info-secction p {
+    font-size: 11px;
+  }
+
+  .cards h2 {
+    font-size: 12px;
+  }
+
+  .cards p {
+    font-size: 10px;
+  }
+
+  .info2-secction h1,
+  .info3-secction h1 {
+    font-size: 18px;
+  }
+
+  .info2-secction p,
+  .info3-secction p {
+    font-size: 10px;
+  }
+
+  .card-section2 h1 {
+    font-size: 16px;
+  }
+
+  .card-section2 p {
+    font-size: 10px;
+  }
+
+  .btn-creat-account {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .copyright {
+    font-size: 9px;
   }
 }
 </style>
