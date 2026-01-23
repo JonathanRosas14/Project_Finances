@@ -5,6 +5,8 @@ import Home from "../components/Home.vue";
 import Features from "../components/Features.vue";
 import About from "../components/About.vue";
 import Contact from "../components/Contact.vue";
+import MainPage from "../components/MainPage.vue";
+import AuthSuccess from "../components/AuthSuccess.vue";
 
 const routes = [
   {
@@ -36,6 +38,22 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
+  },
+  {
+    path: "/auth-success",
+    name: "AuthSuccess",
+    component: AuthSuccess,
+  },
+  {
+    path: "/Dashboard",
+    component: MainPage,
+    children: [
+      {
+        path: "",
+        name: "Dashboard",
+        component: () => import("../components/Dashboard.vue"),
+      },
+    ],
   },
 ];
 

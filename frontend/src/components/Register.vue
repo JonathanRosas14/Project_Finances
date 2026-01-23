@@ -28,7 +28,7 @@
           <h2>Create account</h2>
           <p>
             Do you already have an account?
-            <router-link to="/login">Login</router-link>
+            <router-link to="/login" class="login">Login</router-link>
           </p>
           <form @submit.prevent="handleRegister">
             <!--Mensaje de error-->
@@ -347,12 +347,12 @@ header {
   color: #cccccc;
 }
 
-.form-wrapper a {
+.login {
   color: #3acf41;
   text-decoration: none;
 }
 
-.form-wrapper a:hover {
+.login:hover {
   text-decoration: underline;
 }
 
@@ -461,19 +461,47 @@ header {
   text-align: center;
 }
 
-.google-btn {
-  display: flex;
-  justify-content: center;
-  padding: 12px;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #000;
-  font-weight: bold;
-  margin-top: 10px;
-  text-decoration: none;
+.oauth-divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #888888;
+  position: relative;
 }
+
+.oauth-divider::before,
+.oauth-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: #888888;
+}
+.oauth-divider::before {
+  left: 0;
+}
+.oauth-divider::after {
+  right: 0;
+}
+
+.google-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #30a23b;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
 .google-btn:hover {
-  background: #f0f0f0;
+  background-color: #3acf41;
+  color: #000000;
 }
 
 /* Media Queries para Responsividad */

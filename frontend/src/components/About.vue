@@ -132,7 +132,7 @@
         </div>
         <div class="card">
           <img src="../assets/Imagen5.png" alt="Persona 3" />
-          <h3>Ana Gutierrez</h3>
+          <h3>Ana Rosas</h3>
           <p>Marketing Director</p>
         </div>
       </div>

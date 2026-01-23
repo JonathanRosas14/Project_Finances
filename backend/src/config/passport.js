@@ -26,15 +26,15 @@ passport.use(
         const [result] = await db.query(
           `INSERT INTO users (username, email, provider, provider_id)
            VALUES (?, ?, 'google', ?)`,
-          [username, email, providerId]
+          [username, email, providerId],
         );
 
         done(null, { id: result.insertId, email });
       } catch (error) {
         done(error, null);
       }
-    }
-  )
+    },
+  ),
 );
 
 export default passport;

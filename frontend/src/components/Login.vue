@@ -39,6 +39,11 @@
         <a class="forget-password" href="#">Did you forget your password?</a>
 
         <button type="submit" class="btn-login">Login</button>
+        <div class="oauth-divider">or</div>
+
+        <a href="http://localhost:3000/auth/google" class="google-btn">
+          Continue with Google
+        </a>
       </form>
 
       <div v-if="errorMessage" class="error-message">
@@ -53,7 +58,37 @@
   </div>
 </template>
 
-<script></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const router = useRouter();
+
+const handleLogin = async () => {
+  try {
+    const response = await axios.post("http://localhost:3000/api/login", {
+      email: email.value,
+      password: password.value,
+    });
+
+    const { token, user } = response.data;
+
+    // Guardar el token y la información del usuario en localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Redirigir al Dashboard
+    router.push("/Dashboard");
+  } catch (error) {
+    errorMessage.value =
+      error.response?.data?.message || "Error al iniciar sesión";
+  }
+};
+</script>
 
 <style scoped>
 * {
@@ -242,5 +277,48 @@ header {
 
 .register-link a:hover {
   text-decoration: underline;
+}
+
+.oauth-divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #888888;
+  position: relative;
+}
+
+.oauth-divider::before,
+.oauth-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: #888888;
+}
+.oauth-divider::before {
+  left: 0;
+}
+.oauth-divider::after {
+  right: 0;
+}
+
+.google-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #30a23b;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.google-btn:hover {
+  background-color: #3acf41;
+  color: #000000;
 }
 </style>
