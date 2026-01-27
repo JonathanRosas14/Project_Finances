@@ -1,14 +1,16 @@
 <template>
-  <div class="dashboard-container">
-    <header class="dashboard-header">
-      <h1>Dashboard Principal</h1>
+  <div class="debts-container">
+    <header class="debts-header">
+      <h1>Debts Management</h1>
     </header>
-    <div class="dashboard-content">
+    <div class="debts-content">
       <!-- Content goes here -->
     </div>
   </div>
 </template>
+
 <script setup></script>
+
 <style scoped>
 * {
   margin: 0;
@@ -16,14 +18,14 @@
   box-sizing: border-box;
 }
 
-.dashboard-container {
+.debts-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
 
-.dashboard-header {
+.debts-header {
   display: flex;
   align-items: center;
   background-color: #f8fdf8;
@@ -34,12 +36,12 @@
   width: 100%;
 }
 
-.dashboard-header h1 {
+.debts-header h1 {
   font-size: 28px;
   font-weight: 600;
 }
 
-.dashboard-content {
+.debts-content {
   flex: 1;
   overflow-y: auto;
   padding: 20px;

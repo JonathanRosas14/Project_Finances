@@ -1,14 +1,16 @@
 <template>
-  <div class="dashboard-container">
-    <header class="dashboard-header">
-      <h1>Dashboard Principal</h1>
+  <div class="budgets-container">
+    <header class="budgets-header">
+      <h1>Budgets</h1>
     </header>
-    <div class="dashboard-content">
+    <div class="budgets-content">
       <!-- Content goes here -->
     </div>
   </div>
 </template>
+
 <script setup></script>
+
 <style scoped>
 * {
   margin: 0;
@@ -16,14 +18,14 @@
   box-sizing: border-box;
 }
 
-.dashboard-container {
+.budgets-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
 
-.dashboard-header {
+.budgets-header {
   display: flex;
   align-items: center;
   background-color: #f8fdf8;
@@ -34,12 +36,12 @@
   width: 100%;
 }
 
-.dashboard-header h1 {
+.budgets-header h1 {
   font-size: 28px;
   font-weight: 600;
 }
 
-.dashboard-content {
+.budgets-content {
   flex: 1;
   overflow-y: auto;
   padding: 20px;

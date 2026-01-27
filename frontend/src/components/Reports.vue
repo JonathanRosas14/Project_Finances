@@ -1,9 +1,9 @@
 <template>
-  <div class="dashboard-container">
-    <header class="dashboard-header">
-      <h1>Dashboard Principal</h1>
+  <div class="reports-container">
+    <header class="reports-header">
+      <h1>Reports</h1>
     </header>
-    <div class="dashboard-content">
+    <div class="reports-content">
       <!-- Content goes here -->
     </div>
   </div>
@@ -15,15 +15,13 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-.dashboard-container {
+.reports-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
-
-.dashboard-header {
+.reports-header {
   display: flex;
   align-items: center;
   background-color: #f8fdf8;
@@ -34,12 +32,11 @@
   width: 100%;
 }
 
-.dashboard-header h1 {
+.reports-header h1 {
   font-size: 28px;
   font-weight: 600;
 }
-
-.dashboard-content {
+.reports-content {
   flex: 1;
   overflow-y: auto;
   padding: 20px;

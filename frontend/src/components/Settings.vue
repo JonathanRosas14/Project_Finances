@@ -1,14 +1,16 @@
 <template>
-  <div class="dashboard-container">
-    <header class="dashboard-header">
-      <h1>Dashboard Principal</h1>
+  <div class="settings-container">
+    <header class="settings-header">
+      <h1>Settings</h1>
     </header>
-    <div class="dashboard-content">
+    <div class="settings-content">
       <!-- Content goes here -->
     </div>
   </div>
 </template>
+
 <script setup></script>
+
 <style scoped>
 * {
   margin: 0;
@@ -16,14 +18,14 @@
   box-sizing: border-box;
 }
 
-.dashboard-container {
+.settings-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
 
-.dashboard-header {
+.settings-header {
   display: flex;
   align-items: center;
   background-color: #f8fdf8;
@@ -34,12 +36,12 @@
   width: 100%;
 }
 
-.dashboard-header h1 {
+.settings-header h1 {
   font-size: 28px;
   font-weight: 600;
 }
 
-.dashboard-content {
+.settings-content {
   flex: 1;
   overflow-y: auto;
   padding: 20px;

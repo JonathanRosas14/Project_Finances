@@ -27,14 +27,42 @@
         <!--Configuraciones-->
         <router-link to="/settings" class="nav-link">Settings</router-link>
       </div>
+
+      <div class="log-out">
+        <button @click="handleLogout" class="logout-btn">Log Out</button>
+      </div>
     </nav>
 
     <section class="main-content">
-      <!-- Main content goes here -->
+      <router-view />
     </section>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const user = ref({});
+const loading = ref(true);
+const router = useRouter();
+
+onMounted(() => {
+  const savedUser = localStorage.getItem("user");
+
+  if (!savedUser) {
+    router.push("/");
+    return;
+  }
+
+  user.value = JSON.parse(savedUser);
+  loading.value = false;
+});
+
+const handleLogout = () => {
+  localStorage.clear();
+  router.push("/");
+};
+</script>
 <style scoped>
 * {
   margin: 0;
@@ -45,7 +73,7 @@
 .main-page {
   display: flex;
   height: 100vh;
-  background-color: #f6f8f8;
+  background-color: #ffffff;
   font-family: manrope, sans-serif;
 }
 
@@ -54,7 +82,7 @@
   align-items: center;
   font-size: 22px;
   font-weight: bold;
-  color: #000000;
+  color: #1a7f3a;
 }
 
 .logo span {
@@ -73,12 +101,12 @@
 
 .sidebar {
   width: 250px;
-  background-color: #ebebeb;
+  background-color: #f8fdf8;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border-right: 1px solid #112218;
+  border-right: 1px solid #e0e8e0;
   gap: 30px;
 }
 
@@ -90,7 +118,7 @@
 
 .nav-link {
   text-decoration: none;
-  color: #000000;
+  color: #4a5568;
   font-size: 18px;
   padding: 10px;
   border-radius: 5px;
@@ -100,7 +128,26 @@
 }
 
 .nav-link:hover {
-  background-color: #2e5c31;
+  background-color: #e8f5e9;
+  color: #1a7f3a;
+}
+
+.log-out {
+  margin-top: auto;
+}
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  color: #4a5568;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #ef5350;
   color: #ffffff;
 }
 
@@ -108,5 +155,6 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  background-color: #fafbfa;
 }
 </style>
