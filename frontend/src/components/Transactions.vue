@@ -185,6 +185,59 @@
               </select>
             </div>
 
+            <div class="form-group">
+              <label for="payment-method">Payment Method</label>
+              <select
+                id="payment-method"
+                v-model="form.payment_method"
+                class="form-input"
+              >
+                <option value="cash">Cash</option>
+                <option value="credit_card">Credit Card</option>
+                <option value="debit_card">Debit Card</option>
+                <option value="transfer">Bank Transfer</option>
+                <option value="digital_wallet">Digital Wallet</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Notes</label>
+              <textarea
+                id="notes"
+                v-model="form.notes"
+                class="form-input"
+                placeholder="Add any additional notes..."
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  v-model="form.is_recurring"
+                  class="form-checkbox"
+                />
+                Is this a recurring transaction?
+              </label>
+            </div>
+
+            <div v-if="form.is_recurring" class="form-group">
+              <label for="recurring-frequency">Recurring Frequency</label>
+              <select
+                id="recurring-frequency"
+                v-model="form.recurring_frequency"
+                class="form-input"
+              >
+                <option value="" disabled>Select frequency</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+
             <div class="form-actions">
               <button type="button" @click="closeModel" class="btn-cancel">
                 Cancel
@@ -507,6 +560,25 @@ const deleteTransaction = async (id) => {
 onMounted(() => {
   loadCategories();
   loadTransactions();
+
+  // Recargar transacciones cada 10 segundos
+  const intervalId = setInterval(() => {
+    loadTransactions();
+  }, 10000);
+
+  // Recargar cuando el usuario vuelve a esta pestaña
+  const handleVisibilityChange = () => {
+    if (!document.hidden) {
+      loadTransactions();
+    }
+  };
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+
+  // Limpiar al desmontar el componente
+  return () => {
+    clearInterval(intervalId);
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+  };
 });
 </script>
 
@@ -835,6 +907,32 @@ onMounted(() => {
 
 .form-input:hover {
   border-color: #d0d0d0;
+}
+
+.form-input textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #333;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.form-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+  accent-color: #1a7f3a;
 }
 
 .amount-input-wrapper {

@@ -462,6 +462,176 @@ app.delete("/api/transactions/:id", verifyToken, async (req, res) => {
   }
 });
 
+// ===================== BUDGETS =====================
+
+// Obtener presupuestos del usuario
+app.get("/api/budgets", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const [budgets] = await db.query(
+      `SELECT b.id, b.name, b.category_id, c.name as category_name, 
+              b.amount, b.period, b.start_date, b.end_date, b.alert_percentage,
+              b.is_active, b.description, b.created_at 
+       FROM budgets b
+       LEFT JOIN categories c ON b.category_id = c.id
+       WHERE b.user_id = ? AND b.is_active = TRUE
+       ORDER BY b.start_date DESC`,
+      [userId],
+    );
+
+    res.json(budgets);
+  } catch (error) {
+    console.error("Error al obtener presupuestos:", error);
+    res.status(500).json({ message: "Error al obtener los presupuestos" });
+  }
+});
+
+// Crear presupuesto
+app.post("/api/budgets", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      name,
+      category_id,
+      amount,
+      period,
+      start_date,
+      end_date,
+      alert_percentage,
+      is_active,
+      description,
+    } = req.body;
+
+    if (!name || !amount || !start_date) {
+      return res
+        .status(400)
+        .json({ message: "Nombre, monto y fecha de inicio son obligatorios" });
+    }
+
+    if (amount <= 0) {
+      return res
+        .status(400)
+        .json({ message: "El presupuesto debe ser mayor que cero" });
+    }
+
+    const [result] = await db.query(
+      `INSERT INTO budgets (user_id, name, category_id, amount, period, start_date, end_date, alert_percentage, is_active, description)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        userId,
+        name,
+        category_id || null,
+        amount,
+        period || "monthly",
+        start_date,
+        end_date || null,
+        alert_percentage || 80,
+        is_active !== undefined ? is_active : true,
+        description || null,
+      ],
+    );
+
+    res.status(201).json({
+      message: "Presupuesto creado exitosamente",
+      budget: {
+        id: result.insertId,
+        name,
+        category_id: category_id || null,
+        amount,
+        period: period || "monthly",
+        start_date,
+        end_date: end_date || null,
+        alert_percentage: alert_percentage || 80,
+      },
+    });
+  } catch (error) {
+    console.error("Error al crear presupuesto:", error);
+    res.status(500).json({ message: "Error al crear el presupuesto" });
+  }
+});
+
+// Actualizar presupuesto
+app.put("/api/budgets/:id", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const budgetId = req.params.id;
+    const {
+      name,
+      category_id,
+      amount,
+      period,
+      start_date,
+      end_date,
+      alert_percentage,
+      is_active,
+      description,
+    } = req.body;
+
+    // Verificar que el presupuesto pertenece al usuario
+    const [budget] = await db.query(
+      "SELECT * FROM budgets WHERE id = ? AND user_id = ?",
+      [budgetId, userId],
+    );
+
+    if (budget.length === 0) {
+      return res.status(404).json({ message: "Presupuesto no encontrado" });
+    }
+
+    await db.query(
+      `UPDATE budgets 
+       SET name = ?, category_id = ?, amount = ?, period = ?, start_date = ?, end_date = ?, alert_percentage = ?, is_active = ?, description = ?
+       WHERE id = ? AND user_id = ?`,
+      [
+        name,
+        category_id || null,
+        amount,
+        period,
+        start_date,
+        end_date || null,
+        alert_percentage,
+        is_active,
+        description || null,
+        budgetId,
+        userId,
+      ],
+    );
+
+    res.json({ message: "Presupuesto actualizado exitosamente" });
+  } catch (error) {
+    console.error("Error al actualizar presupuesto:", error);
+    res.status(500).json({ message: "Error al actualizar el presupuesto" });
+  }
+});
+
+// Eliminar presupuesto
+app.delete("/api/budgets/:id", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const budgetId = req.params.id;
+
+    // Verificar que el presupuesto pertenece al usuario
+    const [budget] = await db.query(
+      "SELECT * FROM budgets WHERE id = ? AND user_id = ?",
+      [budgetId, userId],
+    );
+
+    if (budget.length === 0) {
+      return res.status(404).json({ message: "Presupuesto no encontrado" });
+    }
+
+    await db.query("DELETE FROM budgets WHERE id = ? AND user_id = ?", [
+      budgetId,
+      userId,
+    ]);
+
+    res.json({ message: "Presupuesto eliminado exitosamente" });
+  } catch (error) {
+    console.error("Error al eliminar presupuesto:", error);
+    res.status(500).json({ message: "Error al eliminar el presupuesto" });
+  }
+});
+
 // ruta donde correra el servidor
 app.listen(process.env.PORT, "0.0.0.0", () => {
   console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
