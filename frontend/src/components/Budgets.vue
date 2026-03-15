@@ -296,43 +296,48 @@ const loadTransactions = async () => {
   }
 };
 
-// Calcular gasto en un presupuesto
-const getBudgetSpent = (budgetId) => {
-  const budget = budgets.value.find((b) => b.id === budgetId);
-  if (!budget || !transactions.value) return "0.00";
+// Computed: Calcular gastos por presupuesto (rastrea INCOME y EXPENSE)
+const budgetSpents = computed(() => {
+  const map = {};
+  budgets.value.forEach((budget) => {
+    const spent = transactions.value
+      .filter((t) => {
+        if (budget.category_id && t.category_id !== budget.category_id)
+          return false;
+        // Rastrea ambos tipos: income y expense
 
-  const spent = transactions.value
-    .filter((t) => {
-      if (budget.category_id && t.category_id !== budget.category_id)
-        return false;
-      if (t.type !== "expense") return false;
+        const txDate = new Date(t.transaction_date);
+        const startDate = new Date(budget.start_date);
+        const endDate = budget.end_date
+          ? new Date(budget.end_date)
+          : new Date();
 
-      const txDate = new Date(t.transaction_date);
-      const startDate = new Date(budget.start_date);
-      const endDate = budget.end_date ? new Date(budget.end_date) : new Date();
+        return txDate >= startDate && txDate <= endDate;
+      })
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
-      return txDate >= startDate && txDate <= endDate;
-    })
-    .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    map[budget.id] = spent.toFixed(2);
+  });
+  return map;
+});
 
-  return spent.toFixed(2);
-};
+// Computed: Calcular porcentajes de progreso por presupuesto
+const budgetPercentages = computed(() => {
+  const map = {};
+  budgets.value.forEach((budget) => {
+    const spent = parseFloat(budgetSpents.value[budget.id] || 0);
+    const percentage = (spent / budget.amount) * 100;
+    map[budget.id] = Math.min(Math.round(percentage), 100);
+  });
+  return map;
+});
 
-// Calcular porcentaje de progreso
-const getProgressPercentage = (budgetId) => {
-  const budget = budgets.value.find((b) => b.id === budgetId);
-  if (!budget) return 0;
-
-  const spent = parseFloat(getBudgetSpent(budgetId));
-  const percentage = (spent / budget.amount) * 100;
-
-  return Math.min(Math.round(percentage), 100);
-};
-
-// Verificar si alerta está activa
-const isAlertActive = (budget) => {
-  return getProgressPercentage(budget.id) >= budget.alert_percentage;
-};
+// Metodos helper para acceder a los valores computados
+const getBudgetSpent = (budgetId) => budgetSpents.value[budgetId] || "0.00";
+const getProgressPercentage = (budgetId) =>
+  budgetPercentages.value[budgetId] || 0;
+const isAlertActive = (budget) =>
+  getProgressPercentage(budget.id) >= budget.alert_percentage;
 
 // Formatear rango de fechas
 const formatDateRange = (startDate, endDate) => {
@@ -400,6 +405,7 @@ const addBudget = async () => {
     );
 
     await loadBudgets();
+    await loadTransactions();
     closeModal();
     alert("✅ Presupuesto creado exitosamente");
   } catch (error) {
@@ -436,6 +442,7 @@ const updateBudget = async () => {
     );
 
     await loadBudgets();
+    await loadTransactions();
     closeModal();
     alert("✅ Presupuesto actualizado exitosamente");
   } catch (error) {
@@ -467,24 +474,35 @@ onMounted(() => {
   loadBudgets();
   loadTransactions();
 
-  // Recargar transacciones cada 10 segundos para actualizar presupuestos
+  // Recargar transacciones cada 3 segundos para actualizar presupuestos en tiempo real
   const intervalId = setInterval(() => {
     loadTransactions();
-  }, 10000);
+  }, 3000);
 
   // Recargar cuando el usuario vuelve a esta pestaña
-  const handleVisibilityChange = () => {
-    if (!document.hidden) {
-      loadTransactions();
-      loadBudgets();
-    }
+  const handleFocus = () => {
+    loadTransactions();
+    loadBudgets();
   };
-  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("focus", handleFocus);
+
+  // Escuchar eventos de actualización de transacciones desde otros componentes
+  const handleTransactionUpdated = async () => {
+    console.log("🔥 Budgets: Se recibió evento transactionUpdated");
+    await loadTransactions();
+    await loadBudgets();
+    console.log(
+      "🗘 Budgets: Datos recargados - transacciones:",
+      transactions.value.length,
+    );
+  };
+  window.addEventListener("transactionUpdated", handleTransactionUpdated);
 
   // Limpiar al desmontar el componente
   return () => {
     clearInterval(intervalId);
-    document.removeEventListener("visibilitychange", handleVisibilityChange);
+    window.removeEventListener("focus", handleFocus);
+    window.removeEventListener("transactionUpdated", handleTransactionUpdated);
   };
 });
 </script>

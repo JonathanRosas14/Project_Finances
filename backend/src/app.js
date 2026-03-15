@@ -632,6 +632,376 @@ app.delete("/api/budgets/:id", verifyToken, async (req, res) => {
   }
 });
 
+// ===================== GOALS =====================
+
+// Obtener metas del usuario con cálculo automático de progreso
+app.get("/api/goals", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Obtener goals
+    const [goals] = await db.query(
+      `SELECT g.id, g.user_id, g.category_id, c.name as category_name, g.name, g.description, 
+              g.target_amount, g.target_date, g.priority, g.status, g.created_at 
+       FROM goals g
+       LEFT JOIN categories c ON g.category_id = c.id
+       WHERE g.user_id = ? 
+       ORDER BY g.target_date ASC`,
+      [userId],
+    );
+
+    // Para cada goal, calcular current_amount basado en transacciones (INCOME y EXPENSE)
+    const goalsWithProgress = await Promise.all(
+      goals.map(async (goal) => {
+        let currentAmount = 0;
+
+        if (goal.category_id) {
+          // Obtener transacciones de esa categoría (rastrea ambos tipos: income y expense)
+          const [transactions] = await db.query(
+            `SELECT amount FROM transactions 
+             WHERE user_id = ? AND category_id = ?`,
+            [userId, goal.category_id],
+          );
+
+          currentAmount = transactions.reduce(
+            (sum, t) => sum + parseFloat(t.amount),
+            0,
+          );
+        }
+
+        return {
+          ...goal,
+          current_amount: parseFloat(currentAmount.toFixed(2)),
+        };
+      }),
+    );
+
+    res.json(goalsWithProgress);
+  } catch (error) {
+    console.error("Error al obtener metas:", error);
+    res.status(500).json({ message: "Error al obtener las metas" });
+  }
+});
+
+// Crear meta
+app.post("/api/goals", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      name,
+      description,
+      target_amount,
+      target_date,
+      category_id,
+      priority,
+      status,
+    } = req.body;
+
+    if (!name || !target_amount || !target_date) {
+      return res.status(400).json({
+        message: "Nombre, monto objetivo y fecha objetivo son obligatorios",
+      });
+    }
+
+    if (target_amount <= 0) {
+      return res
+        .status(400)
+        .json({ message: "El monto objetivo debe ser mayor que cero" });
+    }
+
+    const [result] = await db.query(
+      `INSERT INTO goals (user_id, category_id, name, description, target_amount, target_date, priority, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        userId,
+        category_id || null,
+        name,
+        description || null,
+        target_amount,
+        target_date,
+        priority || "medium",
+        status || "in_progress",
+      ],
+    );
+
+    res.status(201).json({
+      message: "Meta creada exitosamente",
+      goal: {
+        id: result.insertId,
+        name,
+        description: description || null,
+        target_amount,
+        current_amount: 0,
+        target_date,
+        category_id: category_id || null,
+        priority: priority || "medium",
+        status: status || "in_progress",
+      },
+    });
+  } catch (error) {
+    console.error("Error al crear meta:", error);
+    res.status(500).json({ message: "Error al crear la meta" });
+  }
+});
+
+// Actualizar meta
+app.put("/api/goals/:id", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const goalId = req.params.id;
+    const {
+      name,
+      description,
+      target_amount,
+      target_date,
+      category_id,
+      priority,
+      status,
+    } = req.body;
+
+    // Verificar que la meta pertenece al usuario
+    const [goal] = await db.query(
+      "SELECT * FROM goals WHERE id = ? AND user_id = ?",
+      [goalId, userId],
+    );
+
+    if (goal.length === 0) {
+      return res.status(404).json({ message: "Meta no encontrada" });
+    }
+
+    await db.query(
+      `UPDATE goals 
+       SET name = ?, description = ?, target_amount = ?, target_date = ?, category_id = ?, priority = ?, status = ?
+       WHERE id = ? AND user_id = ?`,
+      [
+        name,
+        description || null,
+        target_amount,
+        target_date,
+        category_id || null,
+        priority || "medium",
+        status || "in_progress",
+        goalId,
+        userId,
+      ],
+    );
+
+    res.json({ message: "Meta actualizada exitosamente" });
+  } catch (error) {
+    console.error("Error al actualizar meta:", error);
+    res.status(500).json({ message: "Error al actualizar la meta" });
+  }
+});
+
+// Eliminar meta
+app.delete("/api/goals/:id", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const goalId = req.params.id;
+
+    // Verificar que la meta pertenece al usuario
+    const [goal] = await db.query(
+      "SELECT * FROM goals WHERE id = ? AND user_id = ?",
+      [goalId, userId],
+    );
+
+    if (goal.length === 0) {
+      return res.status(404).json({ message: "Meta no encontrada" });
+    }
+
+    await db.query("DELETE FROM goals WHERE id = ? AND user_id = ?", [
+      goalId,
+      userId,
+    ]);
+
+    res.json({ message: "Meta eliminada exitosamente" });
+  } catch (error) {
+    console.error("Error al eliminar meta:", error);
+    res.status(500).json({ message: "Error al eliminar la meta" });
+  }
+});
+
+// RUTAS PARA DEUDAS (DEBTS)
+// Obtener deudas del usuario
+app.get("/api/debts", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const [debts] = await db.query(
+      `SELECT d.id, d.user_id, d.category_id, c.name as category_name, d.name, d.creditor, 
+              d.total_amount, d.paid_amount, d.due_date, d.interest_rate, d.description, d.status
+       FROM debts d
+       LEFT JOIN categories c ON d.category_id = c.id
+       WHERE d.user_id = ?
+       ORDER BY d.due_date ASC`,
+      [userId],
+    );
+
+    // Para cada deuda, calcular paid_amount basado en transacciones de gastos
+    const debtsWithProgress = await Promise.all(
+      debts.map(async (debt) => {
+        let paidAmount = 0;
+
+        if (debt.category_id) {
+          // Obtener transacciones de gasto de esa categoría
+          const [transactions] = await db.query(
+            `SELECT amount FROM transactions 
+             WHERE user_id = ? AND category_id = ? AND type = 'expense'`,
+            [userId, debt.category_id],
+          );
+
+          paidAmount = transactions.reduce(
+            (sum, t) => sum + parseFloat(t.amount),
+            0,
+          );
+        }
+
+        return {
+          ...debt,
+          paid_amount: parseFloat(paidAmount.toFixed(2)),
+        };
+      }),
+    );
+
+    res.json(debtsWithProgress);
+  } catch (error) {
+    console.error("Error al obtener deudas:", error);
+    res.status(500).json({ message: "Error al obtener las deudas" });
+  }
+});
+
+// Crear deuda
+app.post("/api/debts", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      name,
+      creditor,
+      total_amount,
+      paid_amount,
+      due_date,
+      interest_rate,
+      category_id,
+      description,
+      status,
+    } = req.body;
+
+    if (!name || !total_amount || !due_date) {
+      return res.status(400).json({
+        message: "Nombre, monto total y fecha de vencimiento son obligatorios",
+      });
+    }
+
+    if (total_amount <= 0) {
+      return res.status(400).json({
+        message: "El monto total debe ser mayor que cero",
+      });
+    }
+
+    await db.query(
+      `INSERT INTO debts (user_id, category_id, name, creditor, total_amount, paid_amount, due_date, interest_rate, description, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        userId,
+        category_id || null,
+        name,
+        creditor || null,
+        total_amount,
+        paid_amount || 0,
+        due_date,
+        interest_rate || 0,
+        description || "",
+        status || "pending",
+      ],
+    );
+
+    res.status(201).json({ message: "Deuda creada exitosamente" });
+  } catch (error) {
+    console.error("Error al crear deuda:", error);
+    res.status(500).json({ message: "Error al crear la deuda" });
+  }
+});
+
+// Actualizar deuda
+app.put("/api/debts/:id", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const debtId = req.params.id;
+    const {
+      name,
+      creditor,
+      total_amount,
+      paid_amount,
+      due_date,
+      interest_rate,
+      category_id,
+      description,
+      status,
+    } = req.body;
+
+    // Verificar que la deuda pertenece al usuario
+    const [debt] = await db.query(
+      "SELECT * FROM debts WHERE id = ? AND user_id = ?",
+      [debtId, userId],
+    );
+
+    if (debt.length === 0) {
+      return res.status(404).json({ message: "Deuda no encontrada" });
+    }
+
+    await db.query(
+      `UPDATE debts SET name = ?, creditor = ?, total_amount = ?, paid_amount = ?, due_date = ?, interest_rate = ?, category_id = ?, description = ?, status = ?
+       WHERE id = ? AND user_id = ?`,
+      [
+        name,
+        creditor || null,
+        total_amount,
+        paid_amount || 0,
+        due_date,
+        interest_rate || 0,
+        category_id || null,
+        description || "",
+        status || "pending",
+        debtId,
+        userId,
+      ],
+    );
+
+    res.json({ message: "Deuda actualizada exitosamente" });
+  } catch (error) {
+    console.error("Error al actualizar deuda:", error);
+    res.status(500).json({ message: "Error al actualizar la deuda" });
+  }
+});
+
+// Eliminar deuda
+app.delete("/api/debts/:id", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const debtId = req.params.id;
+
+    // Verificar que la deuda pertenece al usuario
+    const [debt] = await db.query(
+      "SELECT * FROM debts WHERE id = ? AND user_id = ?",
+      [debtId, userId],
+    );
+
+    if (debt.length === 0) {
+      return res.status(404).json({ message: "Deuda no encontrada" });
+    }
+
+    await db.query("DELETE FROM debts WHERE id = ? AND user_id = ?", [
+      debtId,
+      userId,
+    ]);
+
+    res.json({ message: "Deuda eliminada exitosamente" });
+  } catch (error) {
+    console.error("Error al eliminar deuda:", error);
+    res.status(500).json({ message: "Error al eliminar la deuda" });
+  }
+});
+
 // ruta donde correra el servidor
 app.listen(process.env.PORT, "0.0.0.0", () => {
   console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);

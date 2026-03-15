@@ -213,6 +213,16 @@
             </div>
 
             <div class="form-group">
+              <label for="debt">Related Debt (optional)</label>
+              <select id="debt" v-model="form.debt_id" class="form-input">
+                <option :value="null">No debt</option>
+                <option v-for="debt in debts" :key="debt.id" :value="debt.id">
+                  {{ debt.name }} - ${{ debt.total_amount }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
               <label class="checkbox-label">
                 <input
                   type="checkbox"
@@ -260,6 +270,7 @@ import axios from "axios";
 // Estados
 const transactions = ref([]);
 const categories = ref([]);
+const debts = ref([]);
 const showModal = ref(false);
 const loading = ref(false);
 const isEditMode = ref(false);
@@ -282,6 +293,7 @@ const form = ref({
   is_recurring: false,
   recurring_frequency: null,
   notes: "",
+  debt_id: null,
 });
 
 // Obtener token
@@ -309,6 +321,28 @@ const loadCategories = async () => {
   } catch (error) {
     console.error("❌ Error al cargar categorías:", error);
     alert("Error al cargar las categorías");
+  }
+};
+
+// Cargar deudas
+const loadDebts = async () => {
+  try {
+    const token = getToken();
+    if (!token) {
+      console.error("No hay token de autenticación");
+      return;
+    }
+
+    const response = await axios.get("http://localhost:3000/api/debts", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    debts.value = response.data;
+    console.log("✅ Deudas cargadas:", debts.value.length);
+  } catch (error) {
+    console.error("❌ Error al cargar deudas:", error);
   }
 };
 
@@ -424,6 +458,7 @@ const openModal = () => {
     is_recurring: false,
     recurring_frequency: null,
     notes: "",
+    debt_id: null,
   };
   showModal.value = true;
 };
@@ -462,6 +497,9 @@ const addTransaction = async () => {
     console.log("✅ Transacción creada:", response.data);
     await loadTransactions();
     closeModel();
+    // Notificar a otros componentes que se actualizó una transacción
+    console.log("📢 Disparando evento transactionUpdated desde Transactions");
+    window.dispatchEvent(new CustomEvent("transactionUpdated"));
     alert("✅ Transacción creada exitosamente");
   } catch (error) {
     console.error("❌ Error al crear transacción:", error);
@@ -488,6 +526,7 @@ const editTransaction = async (id) => {
     is_recurring: transaction.is_recurring || false,
     recurring_frequency: transaction.recurring_frequency || null,
     notes: transaction.notes || "",
+    debt_id: transaction.debt_id || null,
   };
   showModal.value = true;
 };
@@ -521,6 +560,8 @@ const updateTransaction = async () => {
     console.log("✅ Transacción actualizada");
     await loadTransactions();
     closeModel();
+    // Notificar a otros componentes que se actualizó una transacción
+    window.dispatchEvent(new CustomEvent("transactionUpdated"));
     alert("✅ Transacción actualizada exitosamente");
   } catch (error) {
     console.error("❌ Error al actualizar transacción:", error);
@@ -549,6 +590,8 @@ const deleteTransaction = async (id) => {
 
     console.log("✅ Transacción eliminada");
     await loadTransactions();
+    // Notificar a otros componentes que se actualizó una transacción
+    window.dispatchEvent(new CustomEvent("transactionUpdated"));
     alert("✅ Transacción eliminada exitosamente");
   } catch (error) {
     console.error("❌ Error al eliminar transacción:", error);
@@ -559,25 +602,24 @@ const deleteTransaction = async (id) => {
 // Cargar datos al montar
 onMounted(() => {
   loadCategories();
+  loadDebts();
   loadTransactions();
 
-  // Recargar transacciones cada 10 segundos
+  // Recargar transacciones cada 3 segundos
   const intervalId = setInterval(() => {
     loadTransactions();
-  }, 10000);
+  }, 3000);
 
   // Recargar cuando el usuario vuelve a esta pestaña
-  const handleVisibilityChange = () => {
-    if (!document.hidden) {
-      loadTransactions();
-    }
+  const handleFocus = () => {
+    loadTransactions();
   };
-  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("focus", handleFocus);
 
   // Limpiar al desmontar el componente
   return () => {
     clearInterval(intervalId);
-    document.removeEventListener("visibilitychange", handleVisibilityChange);
+    window.removeEventListener("focus", handleFocus);
   };
 });
 </script>
