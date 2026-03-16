@@ -5,8 +5,8 @@
     </header>
 
     <div class="categories-content">
-      <div class="botom-agree">
-        <button @click="openModal()">+ create category</button>
+      <div class="button-group">
+        <button @click="openModal()" class="btn-primary">+ create category</button>
       </div>
 
       <!-- Categories list would be rendered here -->
@@ -173,7 +173,7 @@ const closeModal = () => {
 const createCategory = async () => {
   try {
     if (!categoryForm.value.name.trim()) {
-      alert("Please enter the category name");
+      window.showNotification('Please enter the category name', 'warning');
       return;
     }
 
@@ -191,7 +191,7 @@ const createCategory = async () => {
 
     if (!response.ok) {
       const error = await response.json();
-      alert(error.message || "Error creating category");
+      window.showNotification(error.message || 'Error creating category', 'error');
       return;
     }
 
@@ -201,7 +201,7 @@ const createCategory = async () => {
     categoryForm.value.name = "";
   } catch (error) {
     console.error("Error creating category:", error);
-    alert("Error creating category");
+    window.showNotification('Error creating category', 'error');
   } finally {
     loading.value = false;
   }
@@ -234,9 +234,15 @@ const fetchCategories = async () => {
 };
 
 const deleteCategory = async (categoryId) => {
-  if (!confirm("Are you sure you want to delete this category?")) {
-    return;
-  }
+  const confirmed = await window.showConfirmation({
+    title: 'Eliminar Categoría',
+    message: '¿Estás seguro de que deseas eliminar esta categoría? Esta acción no se puede deshacer.',
+    confirmText: 'Eliminar',
+    cancelText: 'Cancelar',
+    danger: true
+  });
+  
+  if (!confirmed) return;
 
   try {
     const token = localStorage.getItem("token");
@@ -258,7 +264,7 @@ const deleteCategory = async (categoryId) => {
     categories.value = categories.value.filter((c) => c.id !== categoryId);
   } catch (error) {
     console.error("Error deleting category:", error);
-    alert("Error deleting category");
+    window.showNotification('Error deleting category', 'error');
   }
 };
 
@@ -303,25 +309,29 @@ onMounted(() => {
   padding: 20px;
 }
 
-.botom-agree {
+.button-group {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 30px;
 }
 
-.botom-agree button {
+.button-group .btn-primary {
   background-color: #1a7f3a;
   color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(26, 127, 58, 0.2);
 }
 
-.botom-agree button:hover {
+.button-group .btn-primary:hover {
   background-color: #166f33;
+  box-shadow: 0 4px 12px rgba(26, 127, 58, 0.3);
+  transform: translateY(-2px);
 }
 
 .empty-state {

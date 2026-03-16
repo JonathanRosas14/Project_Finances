@@ -5,7 +5,7 @@
     </header>
     <div class="debts-content">
       <div class="button-group">
-        <button @click="openModal()" class="btn-create">+ Create Debt</button>
+        <button @click="openModal()" class="btn-primary">+ Create Debt</button>
       </div>
 
       <div v-if="debts.length === 0" class="empty-state">
@@ -347,10 +347,10 @@ const addDebt = async () => {
     // Notificar a otros componentes que se actualizó una deuda
     console.log("📢 Disparando evento debtUpdated desde Debts");
     window.dispatchEvent(new CustomEvent("debtUpdated"));
-    alert("✅ Deuda creada exitosamente");
+    window.showNotification('Deuda creada exitosamente', 'success');
   } catch (error) {
     console.error("Error al crear deuda:", error);
-    alert(error.response?.data?.message || "Error al crear la deuda");
+    window.showNotification(error.response?.data?.message || 'Error al crear la deuda', 'error');
   } finally {
     loading.value = false;
   }
@@ -372,10 +372,10 @@ const updateDebt = async () => {
     // Notificar a otros componentes que se actualizó una deuda
     console.log("📢 Disparando evento debtUpdated desde Debts");
     window.dispatchEvent(new CustomEvent("debtUpdated"));
-    alert("✅ Deuda actualizada exitosamente");
+    window.showNotification('Deuda actualizada exitosamente', 'success');
   } catch (error) {
     console.error("Error al actualizar deuda:", error);
-    alert(error.response?.data?.message || "Error al actualizar la deuda");
+    window.showNotification(error.response?.data?.message || 'Error al actualizar la deuda', 'error');
   } finally {
     loading.value = false;
   }
@@ -383,8 +383,17 @@ const updateDebt = async () => {
 
 // Eliminar deuda
 const deleteDebt = async (debtId) => {
-  if (confirm("¿Estás seguro de eliminar esta deuda?")) {
-    try {
+  const confirmed = await window.showConfirmation({
+    title: 'Eliminar Deuda',
+    message: '¿Estás seguro de que deseas eliminar esta deuda? Esta acción no se puede deshacer.',
+    confirmText: 'Eliminar',
+    cancelText: 'Cancelar',
+    danger: true
+  });
+  
+  if (!confirmed) return;
+  
+  try {
       await axios.delete(`http://localhost:3000/api/debts/${debtId}`, {
         headers: getHeaders(),
       });
@@ -392,12 +401,11 @@ const deleteDebt = async (debtId) => {
       // Notificar a otros componentes que se actualizó una deuda
       console.log("📢 Disparando evento debtUpdated desde Debts");
       window.dispatchEvent(new CustomEvent("debtUpdated"));
-      alert("✅ Deuda eliminada exitosamente");
+      window.showNotification('Deuda eliminada exitosamente', 'success');
     } catch (error) {
       console.error("Error al eliminar deuda:", error);
-      alert("Error al eliminar la deuda");
+      window.showNotification('Error al eliminar la deuda', 'error');
     }
-  }
 };
 
 // Calcular porcentaje de progreso
@@ -500,19 +508,40 @@ onMounted(() => {
 
 .btn-create {
   background-color: #1a7f3a;
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(26, 127, 58, 0.2);
 }
 
 .btn-create:hover {
-  background-color: #165f30;
-  box-shadow: 0 2px 8px rgba(26, 127, 58, 0.3);
+  background-color: #166f33;
+  box-shadow: 0 4px 12px rgba(26, 127, 58, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: #1a7f3a;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(26, 127, 58, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #166f33;
+  box-shadow: 0 4px 12px rgba(26, 127, 58, 0.3);
+  transform: translateY(-2px);
 }
 
 .empty-state {

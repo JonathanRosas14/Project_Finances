@@ -5,7 +5,7 @@
     </header>
     <div class="budgets-content">
       <div class="button-group">
-        <button @click="openModal()" class="btn-create">+ Create Budget</button>
+        <button @click="openModal()" class="btn-primary">+ create budget</button>
       </div>
 
       <div v-if="budgets.length === 0" class="empty-state">
@@ -388,7 +388,7 @@ const openMenu = (budgetId) => {
 const addBudget = async () => {
   try {
     if (!form.value.name || !form.value.amount || !form.value.start_date) {
-      alert("Por favor completa los campos requeridos");
+      window.showNotification('Por favor completa los campos requeridos', 'warning');
       return;
     }
 
@@ -407,10 +407,10 @@ const addBudget = async () => {
     await loadBudgets();
     await loadTransactions();
     closeModal();
-    alert("✅ Presupuesto creado exitosamente");
+    window.showNotification('Presupuesto creado exitosamente', 'success');
   } catch (error) {
     console.error("Error:", error);
-    alert(error.response?.data?.message || "Error al crear presupuesto");
+    window.showNotification(error.response?.data?.message || 'Error al crear presupuesto', 'error');
   }
 };
 
@@ -444,16 +444,24 @@ const updateBudget = async () => {
     await loadBudgets();
     await loadTransactions();
     closeModal();
-    alert("✅ Presupuesto actualizado exitosamente");
+    window.showNotification('Presupuesto actualizado exitosamente', 'success');
   } catch (error) {
     console.error("Error:", error);
-    alert(error.response?.data?.message || "Error al actualizar presupuesto");
+    window.showNotification(error.response?.data?.message || 'Error al actualizar presupuesto', 'error');
   }
 };
 
 // Eliminar presupuesto
 const deleteBudget = async (id) => {
-  if (!confirm("¿Estás seguro de eliminar este presupuesto?")) return;
+  const confirmed = await window.showConfirmation({
+    title: 'Eliminar Presupuesto',
+    message: '¿Estás seguro de que deseas eliminar este presupuesto? Esta acción no se puede deshacer.',
+    confirmText: 'Eliminar',
+    cancelText: 'Cancelar',
+    danger: true
+  });
+  
+  if (!confirmed) return;
 
   try {
     const token = getToken();
@@ -462,10 +470,10 @@ const deleteBudget = async (id) => {
     });
 
     await loadBudgets();
-    alert("✅ Presupuesto eliminado exitosamente");
+    window.showNotification('Presupuesto eliminado exitosamente', 'success');
   } catch (error) {
     console.error("Error:", error);
-    alert(error.response?.data?.message || "Error al eliminar presupuesto");
+    window.showNotification(error.response?.data?.message || 'Error al eliminar presupuesto', 'error');
   }
 };
 
@@ -548,7 +556,7 @@ onMounted(() => {
   margin-bottom: 24px;
 }
 
-.btn-create {
+.btn-primary {
   background-color: #1a7f3a;
   color: #ffffff;
   border: none;
@@ -561,7 +569,7 @@ onMounted(() => {
   box-shadow: 0 2px 8px rgba(26, 127, 58, 0.2);
 }
 
-.btn-create:hover {
+.btn-primary:hover {
   background-color: #166f33;
   box-shadow: 0 4px 12px rgba(26, 127, 58, 0.3);
   transform: translateY(-2px);

@@ -4,8 +4,8 @@
       <h1>Goals</h1>
     </header>
     <div class="goals-content">
-      <div class="bottom-agree">
-        <button @click="openModal()" class="create-goal-btn">
+      <div class="button-group">
+        <button @click="openModal()" class="btn-primary">
           + create goal
         </button>
       </div>
@@ -281,22 +281,30 @@ const saveGoal = async () => {
     }
     await fetchGoals();
     closeModal();
-    alert("✅ Meta guardada exitosamente");
+    window.showNotification('Meta guardada exitosamente', 'success');
   } catch (error) {
     console.error("Error saving goal:", error);
-    alert(error.response?.data?.message || "Error al guardar la meta");
+    window.showNotification(error.response?.data?.message || 'Error al guardar la meta', 'error');
   }
 };
 
 const deleteGoal = async (goalId) => {
-  if (confirm("¿Estás seguro de eliminar esta meta?")) {
-    try {
-      await axios.delete(`${apiUrl}/${goalId}`, { headers: getHeaders() });
-      fetchGoals();
-      alert("✅ Meta eliminada exitosamente");
-    } catch (error) {
-      console.error("Error deleting goal:", error);
-    }
+  const confirmed = await window.showConfirmation({
+    title: 'Eliminar Meta',
+    message: '¿Estás seguro de que deseas eliminar esta meta? Esta acción no se puede deshacer.',
+    confirmText: 'Eliminar',
+    cancelText: 'Cancelar',
+    danger: true
+  });
+  
+  if (!confirmed) return;
+  
+  try {
+    await axios.delete(`${apiUrl}/${goalId}`, { headers: getHeaders() });
+    fetchGoals();
+    window.showNotification('Meta eliminada exitosamente', 'success');
+  } catch (error) {
+    console.error("Error deleting goal:", error);
   }
 };
 
@@ -391,18 +399,40 @@ onMounted(() => {
 
 .create-goal-btn {
   background-color: #1a7f3a;
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
+  padding: 12px 24px;
+  font-size: 15px;
   font-weight: 500;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(26, 127, 58, 0.2);
 }
 
 .create-goal-btn:hover {
-  background-color: #145c2b;
+  background-color: #166f33;
+  box-shadow: 0 4px 12px rgba(26, 127, 58, 0.3);
+  transform: translateY(-2px);
+}
+
+.button-group .btn-primary {
+  background-color: #1a7f3a;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(26, 127, 58, 0.2);
+}
+
+.button-group .btn-primary:hover {
+  background-color: #166f33;
+  box-shadow: 0 4px 12px rgba(26, 127, 58, 0.3);
+  transform: translateY(-2px);
 }
 
 .empty-state {
