@@ -25,19 +25,19 @@
 import { ref } from 'vue';
 
 const isOpen = ref(false);
-const title = ref('Confirmar');
-const message = ref('¿Estás seguro?');
-const confirmText = ref('Confirmar');
-const cancelText = ref('Cancelar');
+const title = ref('Confirm');
+const message = ref('Are you sure?');
+const confirmText = ref('Confirm');
+const cancelText = ref('Cancel');
 const dangerMode = ref(false);
 let resolveCallback = null;
 
 const openConfirmation = (options = {}) => {
   return new Promise((resolve) => {
-    title.value = options.title || 'Confirmar';
-    message.value = options.message || '¿Estás seguro?';
-    confirmText.value = options.confirmText || 'Confirmar';
-    cancelText.value = options.cancelText || 'Cancelar';
+    title.value = options.title || 'Confirm';
+    message.value = options.message || 'Are you sure?';
+    confirmText.value = options.confirmText || 'Confirm';
+    cancelText.value = options.cancelText || 'Cancel';
     dangerMode.value = options.danger || false;
     resolveCallback = resolve;
     isOpen.value = true;
@@ -169,12 +169,13 @@ defineExpose({
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #dc3545;
   color: white;
 }
 
 .btn-danger:hover {
+  background: #c82333;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 </style>

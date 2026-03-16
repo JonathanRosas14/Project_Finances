@@ -259,7 +259,7 @@ const loadCategories = async () => {
     });
     categories.value = response.data;
   } catch (error) {
-    console.error("Error al cargar categorías:", error);
+    console.error("Error loading categories:", error);
   }
 };
 
@@ -271,7 +271,7 @@ const loadDebts = async () => {
     });
     debts.value = response.data;
   } catch (error) {
-    console.error("Error al cargar deudas:", error);
+    console.error("Error loading debts:", error);
   }
 };
 
@@ -331,7 +331,7 @@ const editDebt = async (debtId) => {
       showModal.value = true;
     }
   } catch (error) {
-    console.error("Error al editar deuda:", error);
+    console.error("Error editing debt:", error);
   }
 };
 
@@ -344,13 +344,13 @@ const addDebt = async () => {
     });
     await loadDebts();
     closeModal();
-    // Notificar a otros componentes que se actualizó una deuda
-    console.log("📢 Disparando evento debtUpdated desde Debts");
+    // Notify other components that a debt was updated
+    console.log("📢 Dispatching debtUpdated event from Debts");
     window.dispatchEvent(new CustomEvent("debtUpdated"));
-    window.showNotification('Deuda creada exitosamente', 'success');
+    window.showNotification('Debt created successfully', 'success');
   } catch (error) {
-    console.error("Error al crear deuda:", error);
-    window.showNotification(error.response?.data?.message || 'Error al crear la deuda', 'error');
+    console.error("Error creating debt:", error);
+    window.showNotification(error.response?.data?.message || 'Error creating debt', 'error');
   } finally {
     loading.value = false;
   }
@@ -369,13 +369,13 @@ const updateDebt = async () => {
     );
     await loadDebts();
     closeModal();
-    // Notificar a otros componentes que se actualizó una deuda
-    console.log("📢 Disparando evento debtUpdated desde Debts");
+    // Notify other components that a debt was updated
+    console.log("📢 Dispatching debtUpdated event from Debts");
     window.dispatchEvent(new CustomEvent("debtUpdated"));
-    window.showNotification('Deuda actualizada exitosamente', 'success');
+    window.showNotification('Debt updated successfully', 'success');
   } catch (error) {
-    console.error("Error al actualizar deuda:", error);
-    window.showNotification(error.response?.data?.message || 'Error al actualizar la deuda', 'error');
+    console.error("Error updating debt:", error);
+    window.showNotification(error.response?.data?.message || 'Error updating debt', 'error');
   } finally {
     loading.value = false;
   }
@@ -384,10 +384,10 @@ const updateDebt = async () => {
 // Eliminar deuda
 const deleteDebt = async (debtId) => {
   const confirmed = await window.showConfirmation({
-    title: 'Eliminar Deuda',
-    message: '¿Estás seguro de que deseas eliminar esta deuda? Esta acción no se puede deshacer.',
-    confirmText: 'Eliminar',
-    cancelText: 'Cancelar',
+    title: 'Delete Debt',
+    message: 'Are you sure you want to delete this debt? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
     danger: true
   });
   
@@ -398,13 +398,13 @@ const deleteDebt = async (debtId) => {
         headers: getHeaders(),
       });
       await loadDebts();
-      // Notificar a otros componentes que se actualizó una deuda
-      console.log("📢 Disparando evento debtUpdated desde Debts");
+      // Notify other components that a debt was updated
+      console.log("📢 Dispatching debtUpdated event from Debts");
       window.dispatchEvent(new CustomEvent("debtUpdated"));
-      window.showNotification('Deuda eliminada exitosamente', 'success');
+      window.showNotification('Debt deleted successfully', 'success');
     } catch (error) {
-      console.error("Error al eliminar deuda:", error);
-      window.showNotification('Error al eliminar la deuda', 'error');
+      console.error("Error deleting debt:", error);
+      window.showNotification('Error deleting debt', 'error');
     }
 };
 
@@ -841,13 +841,24 @@ onMounted(() => {
 }
 
 .delete-btn {
-  color: #dc3545;
+  color: #ffffff;
+  background-color: #dc3545;
   border-color: #dc3545;
+  border: none;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2);
 }
 
 .delete-btn:hover {
-  background-color: #dc3545;
-  color: white;
+  background-color: #c82333;
+  border-color: #c82333;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  transform: translateY(-1px);
 }
 
 /* Modal Styles */

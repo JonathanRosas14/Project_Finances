@@ -317,10 +317,10 @@ const loadCategories = async () => {
     });
 
     categories.value = response.data;
-    console.log("✅ Categorías cargadas:", categories.value.length);
+    console.log("✅ Categories loaded:", categories.value.length);
   } catch (error) {
-    console.error("❌ Error al cargar categorías:", error);
-    window.showNotification('Error al cargar las categorías', 'error');
+    console.error("❌ Error loading categories:", error);
+    window.showNotification('Error loading categories', 'error');
   }
 };
 
@@ -340,9 +340,9 @@ const loadDebts = async () => {
     });
 
     debts.value = response.data;
-    console.log("✅ Deudas cargadas:", debts.value.length);
+    console.log("✅ Debts loaded:", debts.value.length);
   } catch (error) {
-    console.error("❌ Error al cargar deudas:", error);
+    console.error("❌ Error loading debts:", error);
   }
 };
 
@@ -363,10 +363,10 @@ const loadTransactions = async () => {
     });
 
     transactions.value = response.data;
-    console.log("✅ Transacciones cargadas:", transactions.value.length);
+    console.log("✅ Transactions loaded:", transactions.value.length);
   } catch (error) {
-    console.error("❌ Error al cargar transacciones:", error);
-    window.showNotification('Error al cargar las transacciones', 'error');
+    console.error("❌ Error loading transactions:", error);
+    window.showNotification('Error loading transactions', 'error');
   } finally {
     loading.value = false;
   }
@@ -476,7 +476,7 @@ const addTransaction = async () => {
       !form.value.amount ||
       !form.value.transaction_date
     ) {
-      window.showNotification('Por favor completa todos los campos obligatorios', 'warning');
+      window.showNotification('Please fill in all required fields', 'warning');
       return;
     }
 
@@ -494,16 +494,16 @@ const addTransaction = async () => {
       },
     );
 
-    console.log("✅ Transacción creada:", response.data);
+    console.log("✅ Transaction created:", response.data);
     await loadTransactions();
     closeModel();
     // Notificar a otros componentes que se actualizó una transacción
-    console.log("📢 Disparando evento transactionUpdated desde Transactions");
+    console.log("📢 Dispatching transactionUpdated event from Transactions");
     window.dispatchEvent(new CustomEvent("transactionUpdated"));
-    window.showNotification('Transacción creada exitosamente', 'success');
+    window.showNotification('Transaction created successfully', 'success');
   } catch (error) {
-    console.error("❌ Error al crear transacción:", error);
-    window.showNotification(error.response?.data?.message || 'Error al crear la transacción', 'error');
+    console.error("❌ Error creating transaction:", error);
+    window.showNotification(error.response?.data?.message || 'Error creating transaction', 'error');
   } finally {
     loading.value = false;
   }
@@ -539,7 +539,7 @@ const updateTransaction = async () => {
       !form.value.amount ||
       !form.value.transaction_date
     ) {
-      window.showNotification('Por favor completa todos los campos obligatorios', 'warning');
+      window.showNotification('Please fill in all required fields', 'warning');
       return;
     }
 
@@ -557,16 +557,16 @@ const updateTransaction = async () => {
       },
     );
 
-    console.log("✅ Transacción actualizada");
+    console.log("✅ Transaction updated");
     await loadTransactions();
     closeModel();
     // Notificar a otros componentes que se actualizó una transacción
     window.dispatchEvent(new CustomEvent("transactionUpdated"));
-    window.showNotification('Transacción actualizada exitosamente', 'success');
+    window.showNotification('Transaction updated successfully', 'success');
   } catch (error) {
-    console.error("❌ Error al actualizar transacción:", error);
+    console.error("❌ Error updating transaction:", error);
     window.showNotification(
-      error.response?.data?.message || 'Error al actualizar la transacción',
+      error.response?.data?.message || 'Error updating transaction',
       'error',
     );
   } finally {
@@ -577,10 +577,10 @@ const updateTransaction = async () => {
 // Eliminar transacción
 const deleteTransaction = async (id) => {
   const confirmed = await window.showConfirmation({
-    title: 'Eliminar Transacción',
-    message: '¿Estás seguro de que deseas eliminar esta transacción? Esta acción no se puede deshacer.',
-    confirmText: 'Eliminar',
-    cancelText: 'Cancelar',
+    title: 'Delete Transaction',
+    message: 'Are you sure you want to delete this transaction? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
     danger: true
   });
   
@@ -599,10 +599,10 @@ const deleteTransaction = async (id) => {
     await loadTransactions();
     // Notificar a otros componentes que se actualizó una transacción
     window.dispatchEvent(new CustomEvent("transactionUpdated"));
-    window.showNotification('Transacción eliminada exitosamente', 'success');
+    window.showNotification('Transaction deleted successfully', 'success');
   } catch (error) {
-    console.error("❌ Error al eliminar transacción:", error);
-    window.showNotification(error.response?.data?.message || 'Error al eliminar la transacción', 'error');
+    console.error("❌ Error deleting transaction:", error);
+    window.showNotification(error.response?.data?.message || 'Error deleting transaction', 'error');
   }
 };
 
@@ -808,12 +808,20 @@ onMounted(() => {
   transform: translateY(-1px);
 }
 .delete-btn {
-  background-color: #e74c3c;
+  background-color: #dc3545;
   color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2);
 }
 .delete-btn:hover {
-  background-color: #c0392b;
-  box-shadow: 0 2px 6px rgba(231, 76, 60, 0.2);
+  background-color: #c82333;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
   transform: translateY(-1px);
 }
 /* Modal Animations */

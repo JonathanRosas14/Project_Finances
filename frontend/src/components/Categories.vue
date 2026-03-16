@@ -235,10 +235,10 @@ const fetchCategories = async () => {
 
 const deleteCategory = async (categoryId) => {
   const confirmed = await window.showConfirmation({
-    title: 'Eliminar Categoría',
-    message: '¿Estás seguro de que deseas eliminar esta categoría? Esta acción no se puede deshacer.',
-    confirmText: 'Eliminar',
-    cancelText: 'Cancelar',
+    title: 'Delete Category',
+    message: 'Are you sure you want to delete this category? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
     danger: true
   });
   
@@ -414,8 +414,8 @@ onMounted(() => {
   height: 28px;
   border-radius: 50%;
   border: none;
-  background-color: rgba(255, 0, 0, 0.1);
-  color: #e74c3c;
+  background-color: #dc3545;
+  color: white;
   cursor: pointer;
   font-size: 16px;
   display: flex;
@@ -423,6 +423,7 @@ onMounted(() => {
   justify-content: center;
   transition: all 0.2s ease;
   opacity: 0;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2);
 }
 
 .category-card:hover .delete-btn {
@@ -430,9 +431,9 @@ onMounted(() => {
 }
 
 .delete-btn:hover {
-  background-color: #e74c3c;
-  color: white;
-  transform: scale(1.1);
+  background-color: #c82333;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  transform: scale(1.15);
 }
 
 .modal {

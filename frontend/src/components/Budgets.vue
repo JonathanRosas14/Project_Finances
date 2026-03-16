@@ -262,7 +262,7 @@ const loadCategories = async () => {
     });
     categories.value = response.data;
   } catch (error) {
-    console.error("Error al cargar categorías:", error);
+    console.error("Error loading categories:", error);
   }
 };
 
@@ -277,7 +277,7 @@ const loadBudgets = async () => {
     });
     budgets.value = response.data;
   } catch (error) {
-    console.error("Error al cargar presupuestos:", error);
+    console.error("Error loading budgets:", error);
   }
 };
 
@@ -292,7 +292,7 @@ const loadTransactions = async () => {
     });
     transactions.value = response.data;
   } catch (error) {
-    console.error("Error al cargar transacciones:", error);
+    console.error("Error loading transactions:", error);
   }
 };
 
@@ -388,7 +388,7 @@ const openMenu = (budgetId) => {
 const addBudget = async () => {
   try {
     if (!form.value.name || !form.value.amount || !form.value.start_date) {
-      window.showNotification('Por favor completa los campos requeridos', 'warning');
+      window.showNotification('Please fill in all required fields', 'warning');
       return;
     }
 
@@ -407,10 +407,10 @@ const addBudget = async () => {
     await loadBudgets();
     await loadTransactions();
     closeModal();
-    window.showNotification('Presupuesto creado exitosamente', 'success');
+    window.showNotification('Budget created successfully', 'success');
   } catch (error) {
     console.error("Error:", error);
-    window.showNotification(error.response?.data?.message || 'Error al crear presupuesto', 'error');
+    window.showNotification(error.response?.data?.message || 'Error creating budget', 'error');
   }
 };
 
@@ -444,20 +444,20 @@ const updateBudget = async () => {
     await loadBudgets();
     await loadTransactions();
     closeModal();
-    window.showNotification('Presupuesto actualizado exitosamente', 'success');
+    window.showNotification('Budget updated successfully', 'success');
   } catch (error) {
     console.error("Error:", error);
-    window.showNotification(error.response?.data?.message || 'Error al actualizar presupuesto', 'error');
+    window.showNotification(error.response?.data?.message || 'Error updating budget', 'error');
   }
 };
 
 // Eliminar presupuesto
 const deleteBudget = async (id) => {
   const confirmed = await window.showConfirmation({
-    title: 'Eliminar Presupuesto',
-    message: '¿Estás seguro de que deseas eliminar este presupuesto? Esta acción no se puede deshacer.',
-    confirmText: 'Eliminar',
-    cancelText: 'Cancelar',
+    title: 'Delete Budget',
+    message: 'Are you sure you want to delete this budget? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
     danger: true
   });
   
@@ -470,10 +470,10 @@ const deleteBudget = async (id) => {
     });
 
     await loadBudgets();
-    window.showNotification('Presupuesto eliminado exitosamente', 'success');
+    window.showNotification('Budget deleted successfully', 'success');
   } catch (error) {
     console.error("Error:", error);
-    window.showNotification(error.response?.data?.message || 'Error al eliminar presupuesto', 'error');
+    window.showNotification(error.response?.data?.message || 'Error deleting budget', 'error');
   }
 };
 
@@ -687,8 +687,8 @@ onMounted(() => {
 }
 
 .menu-item.delete:hover {
-  background-color: #ffe8e8;
-  color: #e74c3c;
+  background-color: #ffebee;
+  color: #dc3545;
 }
 
 .card-category {

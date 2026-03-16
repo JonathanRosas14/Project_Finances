@@ -281,19 +281,19 @@ const saveGoal = async () => {
     }
     await fetchGoals();
     closeModal();
-    window.showNotification('Meta guardada exitosamente', 'success');
+    window.showNotification('Goal saved successfully', 'success');
   } catch (error) {
     console.error("Error saving goal:", error);
-    window.showNotification(error.response?.data?.message || 'Error al guardar la meta', 'error');
+    window.showNotification(error.response?.data?.message || 'Error saving goal', 'error');
   }
 };
 
 const deleteGoal = async (goalId) => {
   const confirmed = await window.showConfirmation({
-    title: 'Eliminar Meta',
-    message: '¿Estás seguro de que deseas eliminar esta meta? Esta acción no se puede deshacer.',
-    confirmText: 'Eliminar',
-    cancelText: 'Cancelar',
+    title: 'Delete Goal',
+    message: 'Are you sure you want to delete this goal? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
     danger: true
   });
   
@@ -302,7 +302,7 @@ const deleteGoal = async (goalId) => {
   try {
     await axios.delete(`${apiUrl}/${goalId}`, { headers: getHeaders() });
     fetchGoals();
-    window.showNotification('Meta eliminada exitosamente', 'success');
+    window.showNotification('Goal deleted successfully', 'success');
   } catch (error) {
     console.error("Error deleting goal:", error);
   }
@@ -570,7 +570,8 @@ onMounted(() => {
 }
 
 .menu-item.delete {
-  color: #d32f2f;
+  color: #dc3545;
+  font-weight: 500;
 }
 
 .goal-description {

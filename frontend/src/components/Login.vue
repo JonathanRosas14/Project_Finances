@@ -85,7 +85,7 @@ const handleLogin = async () => {
     router.push("/Dashboard");
   } catch (error) {
     errorMessage.value =
-      error.response?.data?.message || "Error al iniciar sesión";
+      error.response?.data?.message || "Error logging in";
   }
 };
 </script>
